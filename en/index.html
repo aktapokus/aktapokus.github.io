@@ -310,7 +310,7 @@ footer a { color: var(--text-dim); }
           <h4>Aktapokus Core</h4>
         </div>
         <span class="tool-badge">CORE · FREE</span>
-        <p class="desc">The generic dispatcher that loads and runs tools. Docker, Ollama, admin panel, docs. Install this first.</p>
+        <p class="desc">The generic dispatcher that loads and runs tools. Docker, Ollama, admin panel, docs. Install this first — setup automatically pulls a general-purpose LLM model (qwen3:8b, ~5GB), so the first install can take 5-20 minutes depending on your connection.</p>
         <div class="clone-cmd">git clone https://github.com/aktapokus/core.git</div>
         <div class="tool-card-links">
           <a href="https://github.com/aktapokus/core">Open on GitHub ↗</a>
@@ -368,7 +368,7 @@ footer a { color: var(--text-dim); }
         <div class="step-num"></div>
         <div class="step-body">
           <h5>Clone and install the core</h5>
-          <p>Clone <code>aktapokus-core</code> and run <code>setup.bat</code> — it installs Docker, Ollama, and dependencies. Result: a running core with an empty <code>tools/</code> folder, no tools installed yet.</p>
+          <p>Clone <code>aktapokus-core</code> and run <code>setup.bat</code> — it installs Docker, Ollama and dependencies, and automatically downloads a general-purpose LLM model (qwen3:8b, ~5GB). <b>The first install can take 5-20 minutes because of this</b> — don't turn off your computer, it's a one-time download. Result: a core with no tools installed yet, but genuinely ready to run.</p>
         </div>
       </div>
       <div class="install-step">
@@ -447,7 +447,7 @@ const KNOWN_TOOLS = {
   'core': {
     name: 'Aktapokus Core', letter: 'C', color: { bg: 'rgba(56,104,214,0.14)', fg: '#3868D6' },
     badge: 'CORE · FREE',
-    desc: 'The generic dispatcher that loads and runs tools. Docker, Ollama, admin panel, docs. Install this first.',
+    desc: 'The generic dispatcher that loads and runs tools. Docker, Ollama, admin panel, docs. Install this first — setup automatically pulls a general-purpose LLM model (qwen3:8b, ~5GB), so the first install can take 5-20 minutes depending on your connection.',
   },
   'tool-d5s': {
     name: 'Digital 5S', letter: 'D', color: { bg: 'rgba(56,104,214,0.14)', fg: '#3868D6' },

@@ -319,7 +319,7 @@ footer a { color: var(--text-dim); }
           <h4>Aktapokus Core</h4>
         </div>
         <span class="tool-badge">ÇEKİRDEK · ÜCRETSİZ</span>
-        <p class="desc">Tool'ları yükleyip çalıştıran jenerik dispatcher. Docker, Ollama, admin paneli, dokümanlar. Önce bu kurulur.</p>
+        <p class="desc">Tool'ları yükleyip çalıştıran jenerik dispatcher. Docker, Ollama, admin paneli, dokümanlar. Önce bu kurulur — kurulum sırasında genel amaçlı bir LLM modeli (qwen3:8b, ~5GB) otomatik iner, bu yüzden ilk kurulum 5-20 dakika sürebilir (bağlantınıza göre).</p>
         <div class="clone-cmd">git clone https://github.com/aktapokus/core.git</div>
         <div class="tool-card-links">
           <a href="https://github.com/aktapokus/core">GitHub'da Aç ↗</a>
@@ -377,7 +377,7 @@ footer a { color: var(--text-dim); }
         <div class="step-num"></div>
         <div class="step-body">
           <h5>Core'u klonlayın ve kurun</h5>
-          <p><code>aktapokus-core</code>'u klonlayıp <code>setup.bat</code>'ı çalıştırın — Docker, Ollama ve bağımlılıkları kurar. Sonuç: boş bir <code>tools/</code> klasörüyle çalışan, henüz hiçbir tool'u olmayan bir core.</p>
+          <p><code>aktapokus-core</code>'u klonlayıp <code>setup.bat</code>'ı çalıştırın — Docker, Ollama ve bağımlılıkları kurar, genel amaçlı bir LLM modelini (qwen3:8b, ~5GB) otomatik indirir. <b>İlk kurulum bu yüzden 5-20 dakika sürebilir</b> — bilgisayarınızı kapatmayın, tek seferliktir. Sonuç: hiçbir tool'u olmayan ama gerçekten çalışan bir core.</p>
         </div>
       </div>
       <div class="install-step">
@@ -456,7 +456,7 @@ const KNOWN_TOOLS = {
   'core': {
     ad: 'Aktapokus Core', harf: 'C', renk: { bg: 'rgba(56,104,214,0.14)', fg: '#3868D6' },
     rozet: 'ÇEKİRDEK · ÜCRETSİZ',
-    aciklama: "Tool'ları yükleyip çalıştıran jenerik dispatcher. Docker, Ollama, admin paneli, dokümanlar. Önce bu kurulur.",
+    aciklama: "Tool'ları yükleyip çalıştıran jenerik dispatcher. Docker, Ollama, admin paneli, dokümanlar. Önce bu kurulur — kurulum sırasında genel amaçlı bir LLM modeli (qwen3:8b, ~5GB) otomatik iner, bu yüzden ilk kurulum 5-20 dakika sürebilir (bağlantınıza göre).",
   },
   'tool-d5s': {
     ad: 'Digital 5S', harf: 'D', renk: { bg: 'rgba(56,104,214,0.14)', fg: '#3868D6' },
