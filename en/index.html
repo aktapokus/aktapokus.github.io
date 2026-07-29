@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aktapokus — Bilgisayarı kullanan değil, yöneten bir asistan</title>
-<meta name="description" content="Yerel çalışan (local-first), modüler, yapay zekâ destekli bir dijital operasyon platformu. Core her zaman ücretsiz.">
+<title>Aktapokus — An assistant that manages your computer, not one you operate</title>
+<meta name="description" content="A local-first, modular, AI-assisted digital operations platform. The core is always free.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 220'%3E%3Ccircle cx='110' cy='112' r='54' fill='%23f2c230' stroke='%23102030' stroke-width='6'/%3E%3Ccircle cx='92' cy='102' r='16' fill='%23fff' stroke='%23102030' stroke-width='4'/%3E%3Ccircle cx='128' cy='102' r='16' fill='%23fff' stroke='%23102030' stroke-width='4'/%3E%3Ccircle cx='92' cy='102' r='5' fill='%23102030'/%3E%3Ccircle cx='128' cy='102' r='5' fill='%23d63b2b'/%3E%3Cpath d='M92 128 Q110 142 128 128' fill='none' stroke='%23102030' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -148,8 +148,6 @@ header {
   padding: 9px 11px; overflow-x: auto; white-space: nowrap; color: var(--text);
 }
 .tool-card-links { display: flex; gap: 14px; font-size: 13px; font-weight: 500; }
-.tool-card.soon { opacity: 0.6; }
-.tool-card.soon .tool-badge { color: var(--text-xs); background: var(--surface-2); }
 .dynamic-note { font-family: var(--mono); font-size: 11px; color: var(--text-xs); margin-top: 16px; }
 
 .install-steps { counter-reset: step; margin-top: 32px; }
@@ -162,13 +160,6 @@ header {
 .install-step .step-num::before { content: counter(step); }
 .install-step .step-body h5 { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
 .install-step .step-body p { font-size: 14px; color: var(--text-dim); }
-
-.license-note {
-  background: var(--blue-light); border: 1px solid var(--blue); border-radius: var(--radius);
-  padding: 20px 22px; font-size: 14px; color: var(--text); line-height: 1.6;
-}
-.license-note b { color: var(--blue-dim); }
-:root[data-theme="dark"] .license-note b { color: var(--blue); }
 
 footer { border-top: 1px solid var(--border); padding: 32px 0; text-align: center; color: var(--text-xs); font-size: 13px; }
 footer a { color: var(--text-dim); }
@@ -199,11 +190,11 @@ footer a { color: var(--text-dim); }
       Aktapokus
     </div>
     <div class="header-links">
-      <a href="#araclar">Araçlar</a>
-      <a href="#felsefe">Felsefe</a>
+      <a href="#tools">Tools</a>
+      <a href="#philosophy">Philosophy</a>
       <a href="https://github.com/aktapokus/core">GitHub</a>
-      <a href="en/" style="font-family:var(--mono);font-size:12px">EN</a>
-      <button class="theme-toggle" id="themeToggle" title="Açık/Koyu tema">☀</button>
+      <a href="../" style="font-family:var(--mono);font-size:12px">TR</a>
+      <button class="theme-toggle" id="themeToggle" title="Light/Dark theme">☀</button>
     </div>
   </header>
 
@@ -226,91 +217,91 @@ footer a { color: var(--text-dim); }
       <circle cx="128" cy="102" r="5" fill="#d63b2b"/>
       <path d="M92 128 Q110 142 128 128" fill="none" stroke="#102030" stroke-width="3" stroke-linecap="round"/>
     </svg>
-    <h1>Bilgisayarı kullanan değil, bilgisayarı yöneten bir asistan.</h1>
-    <p class="lead">Aktapokus, tamamen yerel çalışan, modüler, yapay zekâ destekli bir dijital operasyon <b>platformu</b>. Dosyalarınızı düzenler, e-postanızı toplar, toplantı notlarınızı çıkarır — sizden onay almadan hiçbir şey yapmaz. Ve kapalı bir ürün değil: herkesin kendi aracını (Tool) yazıp platforma ekleyebildiği, topluluk tarafından büyütülmesi hedeflenen açık bir ekosistem.</p>
+    <h1>An assistant that manages your computer, not one you operate.</h1>
+    <p class="lead">Aktapokus is a fully local-first, modular, AI-assisted digital operations <b>platform</b>. It organizes your files, cleans up your inbox, and writes up your meeting notes — and never does anything without your approval. It's not a closed product either: an open ecosystem anyone can extend by writing and adding their own Tool, meant to grow through community contribution.</p>
     <div class="hero-ctas">
-      <a class="btn btn-primary" href="#kurulum">Hemen Kur</a>
-      <a class="btn btn-secondary" href="https://github.com/aktapokus/core">GitHub'da İncele ↗</a>
+      <a class="btn btn-primary" href="#install">Get Started</a>
+      <a class="btn btn-secondary" href="https://github.com/aktapokus/core">View on GitHub ↗</a>
     </div>
   </section>
 
   <section class="section" style="border-top:none;padding-top:0">
-    <h2>// Gerçek arayüz</h2>
-    <h3>Ekran görüntüleri — çalışan sistemden, olduğu gibi.</h3>
+    <h2>// Real interface</h2>
+    <h3>Screenshots — straight from the running system.</h3>
     <div class="screenshot-grid">
       <figure class="screenshot-card">
-        <img src="screenshots/app-d5s.png" alt="Aktapokus ana ekranı — Digital 5S tool'u seçili, sol panelde araç listesi" loading="lazy">
-        <figcaption>Ana ekran — sol panelde kurulu araçlar, sağda seçili araç</figcaption>
+        <img src="../screenshots/app-d5s.png" alt="Aktapokus main screen — Digital 5S tool selected, tool list in the left panel" loading="lazy">
+        <figcaption>Home screen — installed tools on the left, the selected tool on the right</figcaption>
       </figure>
       <figure class="screenshot-card">
-        <img src="screenshots/app-gmail.png" alt="Gmail Düzenleyici — kategori paneli ve e-posta analiz formu" loading="lazy">
-        <figcaption>Gmail Düzenleyici — öğrenen kategori paneli</figcaption>
+        <img src="../screenshots/app-gmail.png" alt="Gmail Organizer — category panel and email analysis form" loading="lazy">
+        <figcaption>Gmail Organizer — the self-learning category panel</figcaption>
       </figure>
     </div>
   </section>
 
-  <section class="section" id="felsefe">
-    <h2>// Felsefe</h2>
-    <h3>Her geliştirme şu soruya cevap vermeli: "Bu, son kullanıcının hayatını gerçekten kolaylaştırıyor mu?"</h3>
+  <section class="section" id="philosophy">
+    <h2>// Philosophy</h2>
+    <h3>Every change has to answer one question: "Does this genuinely make the end user's life easier?"</h3>
     <div class="principle-grid">
       <div class="principle-card">
         <div class="num">01</div>
         <h4>Local First</h4>
-        <p>Sistem internet olmadan çalışır. İnternet yalnızca uzaktan erişim, güncelleme ve isteğe bağlı bulut servisleri için kullanılır — hiçbir temel özellik buluta bağımlı değildir.</p>
+        <p>The system runs without an internet connection. The internet is only used for remote access, updates, and optional cloud services — no core feature ever depends on the cloud.</p>
       </div>
       <div class="principle-card">
         <div class="num">02</div>
-        <h4>Yapay Zekâ sadece planlar</h4>
-        <p>LLM sistem değildir — yalnızca niyetinizi anlar, bir plan üretir, uygun aracı seçer. Gerçek işlemleri (dosya taşıma, silme, e-posta arşivleme) yalnızca Tool katmanı yapar, LLM asla doğrudan müdahale edemez.</p>
+        <h4>The AI only plans</h4>
+        <p>The LLM is not the system — it only understands your intent, produces a plan, and picks the right tool. Actual actions (moving files, deleting, archiving email) are performed only by the Tool layer; the LLM can never touch the system directly.</p>
       </div>
       <div class="principle-card">
         <div class="num">03</div>
-        <h4>Her zaman onayınız gerekir</h4>
-        <p>Her işlem aynı sırayı izler: Analiz → Plan → Öneri → Kullanıcı Onayı → İşlem → Doğrulama → Loglama → Geri Alma İmkânı → Öğrenme. Bu sıra değiştirilemez.</p>
+        <h4>Your approval is always required</h4>
+        <p>Every operation follows the same sequence: Analyze → Plan → Suggest → User Approval → Execute → Verify → Log → Ability to Undo → Learn. This order never changes.</p>
       </div>
       <div class="principle-card">
         <div class="num">04</div>
-        <h4>Core sonsuza kadar ücretsiz</h4>
-        <p><code>core.*</code> altında yayınlanan hiçbir araç ücretli olamaz — istisnasız kural. Topluluk (<code>community.*</code>) araçları kendi lisans/fiyatını seçmekte serbest.</p>
+        <h4>The core is free forever</h4>
+        <p>No tool published under <code>core.*</code> can ever be paid — no exceptions. Community (<code>community.*</code>) tools are free to choose their own license and pricing.</p>
       </div>
       <div class="principle-card">
         <div class="num">05</div>
-        <h4>Herkes tool geliştirebilir</h4>
-        <p>Aktapokus kapalı bir ürün değil, bir platform. Çekirdek bilinçli olarak küçük tutuluyor — her yeni yetenek, herkesin kendi reposunda yazıp ekleyebileceği bağımsız bir Tool olarak var oluyor. Hedef: topluluk tarafından geliştirilip büyütülen bir ekosistem.</p>
+        <h4>Anyone can build a tool</h4>
+        <p>Aktapokus isn't a closed product, it's a platform. The core is deliberately kept small — every new capability exists as an independent Tool that anyone can write in their own repo. The goal: an ecosystem built and grown by the community.</p>
       </div>
     </div>
   </section>
 
   <section class="section">
-    <h2>// Katkı</h2>
-    <h3>Kendi Tool'unu yaz, platforma ekle.</h3>
+    <h2>// Contribute</h2>
+    <h3>Write your own Tool, add it to the platform.</h3>
     <p style="font-size:15px;color:var(--text-dim);max-width:640px;margin-bottom:24px;line-height:1.6">
-      Bir Tool yazmak için core'un kaynak koduna dokunmanız gerekmiyor — sabit bir paketleme sözleşmesi var: <code>tool.json</code>, <code>web_analyze</code>/<code>web_execute</code>/<code>web_rollback</code> fonksiyonları, kendi <code>ui/panel.js</code>'iniz. Kendi reposunda yaşar, kendi lisansınızı/fiyatınızı siz seçersiniz (<code>community.*</code>) — isterseniz zamanla Core Team consensus'uyla <code>core.*</code>'a absorbe edilip ücretsiz statüye geçebilir.
+      You don't need to touch the core's source code to write a Tool — there's a fixed packaging contract: <code>tool.json</code>, the <code>web_analyze</code>/<code>web_execute</code>/<code>web_rollback</code> functions, your own <code>ui/panel.js</code>. It lives in its own repo, and you choose your own license/pricing (<code>community.*</code>) — it can later be absorbed into <code>core.*</code> (and made free) by Core Team consensus if you want.
     </p>
     <div class="hero-ctas" style="justify-content:flex-start">
-      <a class="btn btn-primary" href="https://github.com/aktapokus/core/blob/master/AGENTS.md">Tool Sözleşmesini Oku (AGENTS.md) ↗</a>
-      <a class="btn btn-secondary" href="https://github.com/aktapokus/core/blob/master/MANIFESTO.md">Manifesto'yu Oku ↗</a>
+      <a class="btn btn-primary" href="https://github.com/aktapokus/core/blob/master/AGENTS.en.md">Read the Tool Contract (AGENTS.md) ↗</a>
+      <a class="btn btn-secondary" href="https://github.com/aktapokus/core/blob/master/MANIFESTO.en.md">Read the Manifesto ↗</a>
     </div>
   </section>
 
   <section class="section">
-    <h2>// İş akışı</h2>
-    <h3>Her işlem aynı, değiştirilemez sırayı izler.</h3>
+    <h2>// Workflow</h2>
+    <h3>Every operation follows the same, unchangeable sequence.</h3>
     <div class="pipeline-strip">
-      <div class="pipe-step"><span class="pipe-dot"></span>Analiz</div><div class="pipe-line"></div>
+      <div class="pipe-step"><span class="pipe-dot"></span>Analyze</div><div class="pipe-line"></div>
       <div class="pipe-step"><span class="pipe-dot"></span>Plan</div><div class="pipe-line"></div>
-      <div class="pipe-step"><span class="pipe-dot"></span>Öneri</div><div class="pipe-line"></div>
-      <div class="pipe-step"><span class="pipe-dot"></span>Kullanıcı Onayı</div><div class="pipe-line"></div>
-      <div class="pipe-step"><span class="pipe-dot"></span>İşlem</div><div class="pipe-line"></div>
-      <div class="pipe-step"><span class="pipe-dot"></span>Doğrulama</div><div class="pipe-line"></div>
-      <div class="pipe-step"><span class="pipe-dot"></span>Loglama</div><div class="pipe-line"></div>
-      <div class="pipe-step"><span class="pipe-dot"></span>Öğrenme</div>
+      <div class="pipe-step"><span class="pipe-dot"></span>Suggest</div><div class="pipe-line"></div>
+      <div class="pipe-step"><span class="pipe-dot"></span>User Approval</div><div class="pipe-line"></div>
+      <div class="pipe-step"><span class="pipe-dot"></span>Execute</div><div class="pipe-line"></div>
+      <div class="pipe-step"><span class="pipe-dot"></span>Verify</div><div class="pipe-line"></div>
+      <div class="pipe-step"><span class="pipe-dot"></span>Log</div><div class="pipe-line"></div>
+      <div class="pipe-step"><span class="pipe-dot"></span>Learn</div>
     </div>
   </section>
 
-  <section class="section" id="araclar">
-    <h2>// Kurulum</h2>
-    <h3 id="kurulum">Bir çekirdek (core), üzerine istediğiniz kadar araç.</h3>
+  <section class="section" id="tools">
+    <h2>// Install</h2>
+    <h3 id="install">One core, as many tools as you want on top.</h3>
 
     <div class="tool-grid" id="toolGrid">
       <div class="tool-card">
@@ -318,12 +309,12 @@ footer a { color: var(--text-dim); }
           <div class="tool-avatar" style="background:rgba(56,104,214,0.14);color:#3868D6">C</div>
           <h4>Aktapokus Core</h4>
         </div>
-        <span class="tool-badge">ÇEKİRDEK · ÜCRETSİZ</span>
-        <p class="desc">Tool'ları yükleyip çalıştıran jenerik dispatcher. Docker, Ollama, admin paneli, dokümanlar. Önce bu kurulur.</p>
+        <span class="tool-badge">CORE · FREE</span>
+        <p class="desc">The generic dispatcher that loads and runs tools. Docker, Ollama, admin panel, docs. Install this first.</p>
         <div class="clone-cmd">git clone https://github.com/aktapokus/core.git</div>
         <div class="tool-card-links">
-          <a href="https://github.com/aktapokus/core">GitHub'da Aç ↗</a>
-          <a href="https://github.com/aktapokus/core/archive/refs/heads/master.zip">ZIP İndir</a>
+          <a href="https://github.com/aktapokus/core">Open on GitHub ↗</a>
+          <a href="https://github.com/aktapokus/core/archive/refs/heads/master.zip">Download ZIP</a>
         </div>
       </div>
 
@@ -332,73 +323,73 @@ footer a { color: var(--text-dim); }
           <div class="tool-avatar" style="background:rgba(56,104,214,0.14);color:#3868D6">D</div>
           <h4>Digital 5S</h4>
         </div>
-        <span class="tool-badge">core.* · ÜCRETSİZ</span>
-        <p class="desc">5S metodolojisiyle kapsamlı dosya sistemi analizi ve organizasyonu. Skor kartı, kalıcı geçmiş, HTML rapor.</p>
+        <span class="tool-badge">core.* · FREE</span>
+        <p class="desc">Comprehensive file-system analysis and organization using the 5S methodology. Score card, persistent history, HTML report.</p>
         <div class="clone-cmd">git clone https://github.com/aktapokus/tool-d5s.git</div>
         <div class="tool-card-links">
-          <a href="https://github.com/aktapokus/tool-d5s">GitHub'da Aç ↗</a>
-          <a href="https://github.com/aktapokus/tool-d5s/archive/refs/heads/master.zip">ZIP İndir</a>
+          <a href="https://github.com/aktapokus/tool-d5s">Open on GitHub ↗</a>
+          <a href="https://github.com/aktapokus/tool-d5s/archive/refs/heads/master.zip">Download ZIP</a>
         </div>
       </div>
 
       <div class="tool-card">
         <div class="tool-card-top">
           <div class="tool-avatar" style="background:rgba(13,148,136,0.14);color:#0D9488">K</div>
-          <h4>Klasör Düzenleyici</h4>
+          <h4>Folder Organizer</h4>
         </div>
-        <span class="tool-badge">core.* · ÜCRETSİZ</span>
-        <p class="desc">Daha basit, kural tabanlı klasör organizasyonu. Geçici dosya/duplicate temizliği için hafif bir alternatif.</p>
+        <span class="tool-badge">core.* · FREE</span>
+        <p class="desc">A simpler, rule-based folder organizer. A lightweight alternative for cleaning up temp files and duplicates.</p>
         <div class="clone-cmd">git clone https://github.com/aktapokus/tool-folder5s.git</div>
         <div class="tool-card-links">
-          <a href="https://github.com/aktapokus/tool-folder5s">GitHub'da Aç ↗</a>
-          <a href="https://github.com/aktapokus/tool-folder5s/archive/refs/heads/master.zip">ZIP İndir</a>
+          <a href="https://github.com/aktapokus/tool-folder5s">Open on GitHub ↗</a>
+          <a href="https://github.com/aktapokus/tool-folder5s/archive/refs/heads/master.zip">Download ZIP</a>
         </div>
       </div>
 
       <div class="tool-card">
         <div class="tool-card-top">
           <div class="tool-avatar" style="background:rgba(30,142,62,0.14);color:#1E8E3E">G</div>
-          <h4>Gmail Düzenleyici</h4>
+          <h4>Gmail Organizer</h4>
         </div>
-        <span class="tool-badge">core.* · ÜCRETSİZ</span>
-        <p class="desc">Gmail hesabınızı OAuth ile bağlayıp e-postaları kategorize eder, arşivler. Kullandıkça öğrenen 3 katmanlı sınıflandırma.</p>
+        <span class="tool-badge">core.* · FREE</span>
+        <p class="desc">Connects your Gmail account via OAuth to categorize and archive email. A self-learning, three-layer classification system.</p>
         <div class="clone-cmd">git clone https://github.com/aktapokus/tool-gmail.git</div>
         <div class="tool-card-links">
-          <a href="https://github.com/aktapokus/tool-gmail">GitHub'da Aç ↗</a>
-          <a href="https://github.com/aktapokus/tool-gmail/archive/refs/heads/master.zip">ZIP İndir</a>
-          <a href="https://huggingface.co/barismenderes/aktapokus-gmail-v3">Yerel Model ↗</a>
+          <a href="https://github.com/aktapokus/tool-gmail">Open on GitHub ↗</a>
+          <a href="https://github.com/aktapokus/tool-gmail/archive/refs/heads/master.zip">Download ZIP</a>
+          <a href="https://huggingface.co/barismenderes/aktapokus-gmail-v3">⬇ Download the Trained Model (Hugging Face) ↗</a>
         </div>
       </div>
     </div>
-    <p class="dynamic-note" id="dynamicNote">// Bu liste GitHub'daki genel repolardan anlık çekiliyor — yeni bir tool public olduğunda burada elle bir şey değiştirmeye gerek yok.</p>
+    <p class="dynamic-note" id="dynamicNote">// This list is fetched live from GitHub's public repos — nothing to edit by hand when a new tool goes public.</p>
 
     <div class="install-steps">
       <div class="install-step">
         <div class="step-num"></div>
         <div class="step-body">
-          <h5>Core'u klonlayın ve kurun</h5>
-          <p><code>aktapokus-core</code>'u klonlayıp <code>setup.bat</code>'ı çalıştırın — Docker, Ollama ve bağımlılıkları kurar. Sonuç: boş bir <code>tools/</code> klasörüyle çalışan, henüz hiçbir tool'u olmayan bir core.</p>
+          <h5>Clone and install the core</h5>
+          <p>Clone <code>aktapokus-core</code> and run <code>setup.bat</code> — it installs Docker, Ollama, and dependencies. Result: a running core with an empty <code>tools/</code> folder, no tools installed yet.</p>
         </div>
       </div>
       <div class="install-step">
         <div class="step-num"></div>
         <div class="step-body">
-          <h5>İstediğiniz aracı ayrıca klonlayın</h5>
-          <p>Sadece ihtiyacınız olan tool'u indirin — diskinizde başka hiçbir tool'un kodu bulunmaz.</p>
+          <h5>Clone the tool you want, separately</h5>
+          <p>Only download the tool you actually need — no other tool's code ever touches your disk.</p>
         </div>
       </div>
       <div class="install-step">
         <div class="step-num"></div>
         <div class="step-body">
-          <h5>O tool'un kendi setup.bat'ını çalıştırın</h5>
-          <p>Dosyaları core'un <code>tools/&lt;id&gt;/</code> klasörüne kopyalar, container'ı otomatik yeniden başlatır. Elle dosya kopyalama ya da Docker komutu yok.</p>
+          <h5>Run that tool's own setup.bat</h5>
+          <p>It copies the files into the core's <code>tools/&lt;id&gt;/</code> folder and restarts the container automatically. No manual file copying or Docker commands.</p>
         </div>
       </div>
       <div class="install-step">
         <div class="step-num"></div>
         <div class="step-body">
-          <h5>Arayüzü açın</h5>
-          <p><code>http://localhost:8000</code> — tool listesinde yeni aracınızı göreceksiniz.</p>
+          <h5>Open the interface</h5>
+          <p><code>http://localhost:8000</code> — you'll see your new tool in the tool list.</p>
         </div>
       </div>
     </div>
@@ -410,7 +401,7 @@ footer a { color: var(--text-dim); }
 </div>
 
 <div class="lightbox-overlay" id="lightboxOverlay">
-  <img id="lightboxImg" src="" alt="Büyütülmüş ekran görüntüsü">
+  <img id="lightboxImg" src="" alt="Enlarged screenshot">
 </div>
 
 <script>
@@ -429,7 +420,7 @@ const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-schem
 applyTheme(localStorage.getItem('aktapokus-site-theme') || (prefersDark ? 'dark' : 'light'));
 document.getElementById('themeToggle').onclick = toggleTheme;
 
-// ── Ekran görüntüsü lightbox — tıklayınca büyütür ──
+// ── Screenshot lightbox — click to enlarge ──
 const lightbox = document.getElementById('lightboxOverlay');
 const lightboxImg = document.getElementById('lightboxImg');
 document.querySelectorAll('.screenshot-card img').forEach(img => {
@@ -444,81 +435,81 @@ document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') lightbox.classList.remove('visible');
 });
 
-// ── Dinamik araç listesi — GitHub'daki public repo listesinden anlık çekiliyor.
-// Yeni bir tool public olduğunda (ya da bir tanesi kaldırıldığında) bu sayfaya
-// hiç dokunmaya gerek yok — sadece GitHub'daki görünürlük değişir, sayfa
-// bir sonraki ziyarette otomatik günceller. Fetch başarısız olursa (API
-// limiti, ağ sorunu vb.) yukarıdaki statik kartlar olduğu gibi kalır —
-// sayfa asla boş/bozuk görünmez.
+// ── Dynamic tool list — fetched live from GitHub's public repo list.
+// When a new tool goes public (or one is removed), nothing here needs
+// to change by hand — visibility on GitHub is the only source of truth,
+// the page updates itself on the next visit. If the fetch fails (API
+// limit, network issue, etc.) the static cards above stay as they are —
+// the page never looks empty or broken.
 const AKTAPOKUS_ORG = 'aktapokus';
 const EXCLUDED_REPOS = ['aktapokus.github.io'];
 const KNOWN_TOOLS = {
   'core': {
-    ad: 'Aktapokus Core', harf: 'C', renk: { bg: 'rgba(56,104,214,0.14)', fg: '#3868D6' },
-    rozet: 'ÇEKİRDEK · ÜCRETSİZ',
-    aciklama: "Tool'ları yükleyip çalıştıran jenerik dispatcher. Docker, Ollama, admin paneli, dokümanlar. Önce bu kurulur.",
+    name: 'Aktapokus Core', letter: 'C', color: { bg: 'rgba(56,104,214,0.14)', fg: '#3868D6' },
+    badge: 'CORE · FREE',
+    desc: 'The generic dispatcher that loads and runs tools. Docker, Ollama, admin panel, docs. Install this first.',
   },
   'tool-d5s': {
-    ad: 'Digital 5S', harf: 'D', renk: { bg: 'rgba(56,104,214,0.14)', fg: '#3868D6' },
-    rozet: 'core.* · ÜCRETSİZ',
-    aciklama: '5S metodolojisiyle kapsamlı dosya sistemi analizi ve organizasyonu. Skor kartı, kalıcı geçmiş, HTML rapor.',
+    name: 'Digital 5S', letter: 'D', color: { bg: 'rgba(56,104,214,0.14)', fg: '#3868D6' },
+    badge: 'core.* · FREE',
+    desc: 'Comprehensive file-system analysis and organization using the 5S methodology. Score card, persistent history, HTML report.',
   },
   'tool-folder5s': {
-    ad: 'Klasör Düzenleyici', harf: 'K', renk: { bg: 'rgba(13,148,136,0.14)', fg: '#0D9488' },
-    rozet: 'core.* · ÜCRETSİZ',
-    aciklama: 'Daha basit, kural tabanlı klasör organizasyonu. Geçici dosya/duplicate temizliği için hafif bir alternatif.',
+    name: 'Folder Organizer', letter: 'K', color: { bg: 'rgba(13,148,136,0.14)', fg: '#0D9488' },
+    badge: 'core.* · FREE',
+    desc: 'A simpler, rule-based folder organizer. A lightweight alternative for cleaning up temp files and duplicates.',
   },
   'tool-gmail': {
-    ad: 'Gmail Düzenleyici', harf: 'G', renk: { bg: 'rgba(30,142,62,0.14)', fg: '#1E8E3E' },
-    rozet: 'core.* · ÜCRETSİZ',
-    aciklama: 'Gmail hesabınızı OAuth ile bağlayıp e-postaları kategorize eder, arşivler. Kullandıkça öğrenen 3 katmanlı sınıflandırma.',
-    ekstraLink: { text: '⬇ Eğitilmiş Modeli İndir (Hugging Face) ↗', href: 'https://huggingface.co/barismenderes/aktapokus-gmail-v3', vurgulu: true },
+    name: 'Gmail Organizer', letter: 'G', color: { bg: 'rgba(30,142,62,0.14)', fg: '#1E8E3E' },
+    badge: 'core.* · FREE',
+    desc: 'Connects your Gmail account via OAuth to categorize and archive email. A self-learning, three-layer classification system.',
+    extraLink: { text: '⬇ Download the Trained Model (Hugging Face) ↗', href: 'https://huggingface.co/barismenderes/aktapokus-gmail-v3', highlighted: true },
   },
   'tool-toplanti': {
-    ad: 'Toplantı Notları', harf: 'T', renk: { bg: 'rgba(124,58,237,0.14)', fg: '#7C3AED' },
-    rozet: 'core.* · ÜCRETSİZ',
-    aciklama: 'Toplantı sesini kaydedip (canlı mikrofon ya da dosya) Türkçe transkript çıkarır, konuşmacıları ayırt eder, LLM ile özet rapor üretir.',
+    name: 'Meeting Notes', letter: 'T', color: { bg: 'rgba(124,58,237,0.14)', fg: '#7C3AED' },
+    badge: 'core.* · FREE',
+    desc: 'Records a meeting (live mic or file upload), transcribes it in Turkish with speaker diarization, and generates an LLM summary report.',
   },
 };
-const RENK_PALETI = [
+const COLOR_PALETTE = [
   { bg: 'rgba(56,104,214,0.14)', fg: '#3868D6' },
   { bg: 'rgba(22,128,60,0.14)', fg: '#16803C' },
   { bg: 'rgba(124,58,237,0.14)', fg: '#7C3AED' },
   { bg: 'rgba(180,83,9,0.14)', fg: '#B45309' },
   { bg: 'rgba(220,38,38,0.14)', fg: '#DC2626' },
 ];
-function renkUret(ad) {
+function colorFor(name) {
   let h = 0;
-  for (const ch of ad) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
-  return RENK_PALETI[h % RENK_PALETI.length];
+  for (const ch of name) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
+  return COLOR_PALETTE[h % COLOR_PALETTE.length];
 }
 function escHtml(s) {
   return String(s ?? '').replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
 }
 
-function repoKartHtml(repo) {
-  const bilinen = KNOWN_TOOLS[repo.name];
-  const ad = bilinen ? bilinen.ad : repo.name;
-  const harf = bilinen ? bilinen.harf : ad.charAt(0).toUpperCase();
-  const renk = bilinen ? bilinen.renk : renkUret(repo.name);
-  const rozet = bilinen ? bilinen.rozet : (repo.name === 'core' ? 'ÇEKİRDEK · ÜCRETSİZ' : 'core.* · ÜCRETSİZ');
-  const aciklama = repo.description || (bilinen ? bilinen.aciklama : 'Detaylar için GitHub reposuna bakın.');
-  const dal = repo.default_branch || 'master';
-  const ekstra = bilinen && bilinen.ekstraLink
-    ? `<a href="${bilinen.ekstraLink.href}"${bilinen.ekstraLink.vurgulu ? ' class="model-link"' : ''}>${escHtml(bilinen.ekstraLink.text)}</a>` : '';
+function repoCardHtml(repo) {
+  const known = KNOWN_TOOLS[repo.name];
+  const name = known ? known.name : repo.name;
+  const letter = known ? known.letter : name.charAt(0).toUpperCase();
+  const color = known ? known.color : colorFor(repo.name);
+  const badge = known ? known.badge : (repo.name === 'core' ? 'CORE · FREE' : 'core.* · FREE');
+  const desc = repo.description || (known ? known.desc : 'See the GitHub repo for details.');
+  const branch = repo.default_branch || 'master';
+  const extra = known && known.extraLink
+    ? `<a href="${known.extraLink.href}"${known.extraLink.highlighted ? ' class="model-link"' : ''}>${escHtml(known.extraLink.text)}</a>` : '';
   return `
     <div class="tool-card">
       <div class="tool-card-top">
-        <div class="tool-avatar" style="background:${renk.bg};color:${renk.fg}">${escHtml(harf)}</div>
-        <h4>${escHtml(ad)}</h4>
+        <div class="tool-avatar" style="background:${color.bg};color:${color.fg}">${escHtml(letter)}</div>
+        <h4>${escHtml(name)}</h4>
       </div>
-      <span class="tool-badge">${escHtml(rozet)}</span>
-      <p class="desc">${escHtml(aciklama)}</p>
+      <span class="tool-badge">${escHtml(badge)}</span>
+      <p class="desc">${escHtml(desc)}</p>
       <div class="clone-cmd">git clone ${repo.clone_url}</div>
       <div class="tool-card-links">
-        <a href="${repo.html_url}">GitHub'da Aç ↗</a>
-        <a href="${repo.html_url}/archive/refs/heads/${dal}.zip">ZIP İndir</a>
-        ${ekstra}
+        <a href="${repo.html_url}">Open on GitHub ↗</a>
+        <a href="${repo.html_url}/archive/refs/heads/${branch}.zip">Download ZIP</a>
+        ${extra}
       </div>
     </div>`;
 }
@@ -530,17 +521,17 @@ async function loadToolsFromGitHub() {
     const r = await fetch(`https://api.github.com/users/${AKTAPOKUS_ORG}/repos?per_page=100`);
     if (!r.ok) throw new Error('GitHub API ' + r.status);
     const repos = await r.json();
-    const gorunur = repos.filter(x => !x.private && !EXCLUDED_REPOS.includes(x.name));
-    if (gorunur.length === 0) return; // bos donerse mevcut statik kartlari koru
-    gorunur.sort((a, b) => {
+    const visible = repos.filter(x => !x.private && !EXCLUDED_REPOS.includes(x.name));
+    if (visible.length === 0) return; // keep the static cards if the API returns nothing
+    visible.sort((a, b) => {
       if (a.name === 'core') return -1;
       if (b.name === 'core') return 1;
       return a.name.localeCompare(b.name);
     });
-    grid.innerHTML = gorunur.map(repoKartHtml).join('');
-    if (note) note.textContent = `// ${gorunur.length} public repo — GitHub'dan anlık çekildi (${new Date().toLocaleTimeString('tr-TR')})`;
+    grid.innerHTML = visible.map(repoCardHtml).join('');
+    if (note) note.textContent = `// ${visible.length} public repos — fetched live from GitHub (${new Date().toLocaleTimeString('en-US')})`;
   } catch (e) {
-    if (note) note.textContent = '// Canlı liste alınamadı, aşağıdaki bilinen araçlar gösteriliyor.';
+    if (note) note.textContent = '// Could not load the live list, showing known tools below.';
   }
 }
 loadToolsFromGitHub();
