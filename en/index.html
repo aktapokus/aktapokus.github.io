@@ -299,6 +299,17 @@ footer a { color: var(--text-dim); }
     </div>
   </section>
 
+  <section class="section" id="model-independence">
+    <h2>// Model Independence</h2>
+    <h3>You're not locked into one model.</h3>
+    <p style="font-size:15px;color:var(--text-dim);max-width:640px;margin-bottom:24px;line-height:1.6">
+      From the admin panel you pick ONE default model for the whole system (local Ollama, or cloud — OpenAI, Gemini, Claude via OpenRouter). Beyond that, a tool can request a different model when it needs to — this runs through a registry defined in <code>core/models.json</code> and does NOT change the default. API keys for these extra models are entered on the <code>/settings</code> page — no restart needed, effective immediately in the same session.
+    </p>
+    <div class="hero-ctas" style="justify-content:flex-start">
+      <a class="btn btn-primary" href="https://github.com/aktapokus/core/blob/master/LLM_SAGLAYICILAR.en.md">Provider Setup Guide ↗</a>
+    </div>
+  </section>
+
   <section class="section" id="tools">
     <h2>// Install</h2>
     <h3 id="install">One core, as many tools as you want on top.</h3>

@@ -308,6 +308,17 @@ footer a { color: var(--text-dim); }
     </div>
   </section>
 
+  <section class="section" id="model-bagimsizligi">
+    <h2>// Model Bağımsızlığı</h2>
+    <h3>Tek bir modele mahkum değilsiniz.</h3>
+    <p style="font-size:15px;color:var(--text-dim);max-width:640px;margin-bottom:24px;line-height:1.6">
+      Admin panelinden tüm sistem için TEK bir varsayılan model seçersiniz (yerel Ollama ya da bulut — OpenAI, Gemini, OpenRouter üzerinden Claude). Bunun ötesinde, bir tool gerektiğinde farklı bir model isteyebilir — bu <code>core/models.json</code> içinde tanımlı bir registry üzerinden çalışır, varsayılanı DEĞİŞTİRMEZ. Bu ek modellerin API key'leri <code>/settings</code> sayfasından girilir — restart gerekmez, aynı oturumda hemen etkili olur.
+    </p>
+    <div class="hero-ctas" style="justify-content:flex-start">
+      <a class="btn btn-primary" href="https://github.com/aktapokus/core/blob/master/LLM_SAGLAYICILAR.md">Sağlayıcı Kurulum Kılavuzu ↗</a>
+    </div>
+  </section>
+
   <section class="section" id="araclar">
     <h2>// Kurulum</h2>
     <h3 id="kurulum">Bir çekirdek (core), üzerine istediğiniz kadar araç.</h3>
