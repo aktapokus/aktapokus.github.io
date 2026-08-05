@@ -200,6 +200,7 @@ footer a { color: var(--text-dim); }
     </div>
     <div class="header-links">
       <a href="#araclar">Araçlar</a>
+      <a href="#sokrates">Sokrates</a>
       <a href="#felsefe">Felsefe</a>
       <a href="https://github.com/aktapokus/core">GitHub</a>
       <a href="en/" style="font-family:var(--mono);font-size:12px">EN</a>
@@ -319,6 +320,29 @@ footer a { color: var(--text-dim); }
     </div>
   </section>
 
+  <section class="section" id="sokrates">
+    <h2>// Sokrates</h2>
+    <h3>Kod yazmaya başlamadan önce, doğru soruları sorun.</h3>
+    <p style="font-size:15px;color:var(--text-dim);max-width:640px;margin-bottom:24px;line-height:1.6">
+      Bir fikriniz var ama hangi teknik kararları vermeniz gerektiğini bilmiyorsunuz — konuşmacı ayrımı mı, vektör veritabanı mı, sunucu tarafında secret yönetimi mi lazım? Sokrates, hedefinizi Sokratik sorularla netleştirip kod yazan herhangi bir LLM'e (Claude, GPT, Gemini — fark etmez) verebileceğiniz eksiksiz, yapılandırılmış bir teknik spec/prompt hazırlar. Amaç: yazılım bilgisini demokratikleştirmek — bir fikri olan herkesin, deneyimli bir mimarın soracağı soruları alabilmesi.
+    </p>
+    <div class="license-note" style="margin-bottom:28px">
+      <b>Sıfır API prensibi:</b> Sokrates'in kendisi hiçbir LLM'e bağlanmaz, kendi API key'i yoktur. Tüm akıl yürütmeyi (hangi sorunun sorulacağına karar vermek, ne zaman yeterli bilgi toplandığını değerlendirmek) onu <b>çağıran model</b> yapar — sizin Claude/ChatGPT aboneliğiniz üzerinden, ekstra maliyet olmadan. Sokrates sadece oturum durumu tutar, elle küratörlüğü yapılan bir bilgi tabanında arama yapar ve toplanan cevapları bir spec şablonuyla birleştirir — hiçbiri dış bir servise ağ isteği atmaz.
+    </div>
+    <div class="pipeline-strip" style="margin-bottom:28px">
+      <div class="pipe-step"><span class="pipe-dot"></span>start_session</div><div class="pipe-line"></div>
+      <div class="pipe-step"><span class="pipe-dot"></span>submit_answer (döngü)</div><div class="pipe-line"></div>
+      <div class="pipe-step"><span class="pipe-dot"></span>search_knowledge_base</div><div class="pipe-line"></div>
+      <div class="pipe-step"><span class="pipe-dot"></span>generate_spec</div>
+    </div>
+    <p style="font-size:14px;color:var(--text-dim);margin-bottom:12px">Bağlanmak için (kurulum gerekmez, hosted):</p>
+    <div class="clone-cmd" style="max-width:420px;margin-bottom:20px">https://sokrates.fastmcp.app/mcp</div>
+    <div class="hero-ctas" style="justify-content:flex-start">
+      <a class="btn btn-primary" href="https://github.com/aktapokus/sokrates-mcp">GitHub'da İncele ↗</a>
+      <a class="btn btn-secondary" href="https://github.com/aktapokus/sokrates-mcp#bağlanma">Bağlanma Kılavuzu ↗</a>
+    </div>
+  </section>
+
   <section class="section" id="araclar">
     <h2>// Kurulum</h2>
     <h3 id="kurulum">Bir çekirdek (core), üzerine istediğiniz kadar araç.</h3>
@@ -378,6 +402,20 @@ footer a { color: var(--text-dim); }
           <a href="https://github.com/aktapokus/tool-gmail">GitHub'da Aç ↗</a>
           <a href="https://github.com/aktapokus/tool-gmail/archive/refs/heads/master.zip">ZIP İndir</a>
           <a href="https://huggingface.co/barismenderes/aktapokus-gmail-v3">Yerel Model ↗</a>
+        </div>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-card-top">
+          <div class="tool-avatar" style="background:rgba(124,58,237,0.14);color:#7C3AED">T</div>
+          <h4>Toplantı Notları</h4>
+        </div>
+        <span class="tool-badge">core.* · ÜCRETSİZ</span>
+        <p class="desc">Toplantı sesini kaydedip (canlı mikrofon ya da dosya) Türkçe transkript çıkarır; konuşmacı ayrımı hız için isteğe bağlı kapatılabilir. Rapor otomatik olarak Markdown, stilize HTML, PDF ve filtrelenebilir Excel (Aksiyon/Sorumlu/Termin) formatında üretilir — bulut model rate-limit'e takılırsa sessizce yerel modele düşer, uydurma içerik üretmez.</p>
+        <div class="clone-cmd">git clone https://github.com/aktapokus/tool-toplanti.git</div>
+        <div class="tool-card-links">
+          <a href="https://github.com/aktapokus/tool-toplanti">GitHub'da Aç ↗</a>
+          <a href="https://github.com/aktapokus/tool-toplanti/archive/refs/heads/master.zip">ZIP İndir</a>
         </div>
       </div>
     </div>
@@ -462,7 +500,7 @@ document.addEventListener('keydown', (e) => {
 // limiti, ağ sorunu vb.) yukarıdaki statik kartlar olduğu gibi kalır —
 // sayfa asla boş/bozuk görünmez.
 const AKTAPOKUS_ORG = 'aktapokus';
-const EXCLUDED_REPOS = ['aktapokus.github.io'];
+const EXCLUDED_REPOS = ['aktapokus.github.io', 'sokrates-mcp'];
 const KNOWN_TOOLS = {
   'core': {
     ad: 'Aktapokus Core', harf: 'C', renk: { bg: 'rgba(56,104,214,0.14)', fg: '#3868D6' },
@@ -488,7 +526,7 @@ const KNOWN_TOOLS = {
   'tool-toplanti': {
     ad: 'Toplantı Notları', harf: 'T', renk: { bg: 'rgba(124,58,237,0.14)', fg: '#7C3AED' },
     rozet: 'core.* · ÜCRETSİZ',
-    aciklama: 'Toplantı sesini kaydedip (canlı mikrofon ya da dosya) Türkçe transkript çıkarır, konuşmacıları ayırt eder, LLM ile özet rapor üretir.',
+    aciklama: "Toplantı sesini kaydedip (canlı mikrofon ya da dosya) Türkçe transkript çıkarır; konuşmacı ayrımı hız için isteğe bağlı kapatılabilir. Rapor otomatik olarak Markdown, stilize HTML, PDF ve filtrelenebilir Excel (Aksiyon/Sorumlu/Termin) formatında üretilir — bulut model rate-limit'e takılırsa sessizce yerel modele düşer, uydurma içerik üretmez.",
   },
 };
 const RENK_PALETI = [
