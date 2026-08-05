@@ -170,6 +170,26 @@ header {
 .license-note b { color: var(--blue-dim); }
 :root[data-theme="dark"] .license-note b { color: var(--blue); }
 
+.model-picker { margin-top: 32px; }
+.model-picker > p.q { font-size: 15px; font-weight: 600; margin-bottom: 12px; }
+.model-picker-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
+.model-picker-tabs button {
+  font-family: var(--sans); font-size: 13px; font-weight: 500; padding: 8px 16px;
+  border-radius: 999px; border: 1px solid var(--border); background: var(--surface);
+  color: var(--text-dim); cursor: pointer; transition: all 0.12s;
+}
+.model-picker-tabs button:hover { background: var(--surface-2); color: var(--text); }
+.model-picker-tabs button.active { background: var(--blue); border-color: var(--blue); color: #fff; }
+.model-picker-panel { display: none; }
+.model-picker-panel.active { display: block; }
+.model-picker-note {
+  font-size: 14px; color: var(--text-dim); line-height: 1.6; margin-top: 8px;
+}
+.model-picker-note code.block {
+  display: block; font-family: var(--mono); font-size: 12px; background: var(--surface-2);
+  border-radius: 6px; padding: 12px 14px; margin-top: 10px; overflow-x: auto; white-space: pre;
+}
+
 footer { border-top: 1px solid var(--border); padding: 32px 0; text-align: center; color: var(--text-xs); font-size: 13px; }
 footer a { color: var(--text-dim); }
 
@@ -338,33 +358,132 @@ footer a { color: var(--text-dim); }
     <p style="font-size:14px;color:var(--text-dim);margin-bottom:12px">Bağlanmak için (kurulum gerekmez, hosted):</p>
     <div class="clone-cmd" style="max-width:420px;margin-bottom:12px">https://sokrates.fastmcp.app/mcp</div>
 
-    <div class="install-steps">
-      <div class="install-step">
-        <div class="step-num"></div>
-        <div class="step-body">
-          <h5>Claude.ai'ı açın, Connectors ekleyin</h5>
-          <p>Sohbet kutusunun yanındaki <b>+</b> menüsü → <b>Connectors</b> → <b>Add connector</b>. İsim olarak <code>sokrates</code>, URL olarak yukarıdaki adresi girip kaydedin.</p>
+    <div class="model-picker">
+      <p class="q">Hangi asistanı kullanıyorsunuz?</p>
+      <div class="model-picker-tabs" id="modelPickerTabs">
+        <button data-target="claude" class="active">Claude</button>
+        <button data-target="chatgpt">ChatGPT</button>
+        <button data-target="mistral">Mistral (Le Chat)</button>
+        <button data-target="gemini">Gemini</button>
+        <button data-target="qwen">Qwen</button>
+        <button data-target="kimi">Kimi</button>
+        <button data-target="groq">Groq</button>
+      </div>
+
+      <div class="model-picker-panel active" data-panel="claude">
+        <div class="install-steps">
+          <div class="install-step">
+            <div class="step-num"></div>
+            <div class="step-body">
+              <h5>Claude.ai'ı açın, Connectors ekleyin</h5>
+              <p>Sohbet kutusunun yanındaki <b>+</b> menüsü → <b>Connectors</b> → <b>Add connector</b>. İsim olarak <code>sokrates</code>, URL olarak yukarıdaki adresi girip kaydedin.</p>
+            </div>
+          </div>
+          <div class="install-step">
+            <div class="step-num"></div>
+            <div class="step-body">
+              <h5>Connector'ı aktif edin</h5>
+              <p>Aynı <b>+</b> menüsündeki Connectors listesinde <code>sokrates</code>'i açık konuma getirin.</p>
+            </div>
+          </div>
+          <div class="install-step">
+            <div class="step-num"></div>
+            <div class="step-body">
+              <h5>Belirsiz hedefinizi anlatın</h5>
+              <p>Yeni bir sohbette, ör. "bir gym app yapmak istiyorum" yazın — Claude otomatik olarak <code>start_session</code>'ı çağırır ve size soru sormaya başlar.</p>
+            </div>
+          </div>
+        </div>
+        <p class="model-picker-note">Ayrıca Claude Desktop/Code'a <code>.mcp.json</code> ile de bağlanabilirsiniz — <a href="https://github.com/aktapokus/sokrates-mcp#bağlanma">detaylı kılavuz ↗</a></p>
+      </div>
+
+      <div class="model-picker-panel" data-panel="chatgpt">
+        <div class="install-steps">
+          <div class="install-step">
+            <div class="step-num"></div>
+            <div class="step-body">
+              <h5>Developer mode'u açın</h5>
+              <p><b>Settings → Apps → Advanced settings</b>'ten <b>Developer mode</b>'u etkinleştirin. Pro, Plus, Business, Enterprise ve Education planlarında mevcuttur.</p>
+            </div>
+          </div>
+          <div class="install-step">
+            <div class="step-num"></div>
+            <div class="step-body">
+              <h5>Custom connector oluşturun</h5>
+              <p><b>Settings → Connectors → Create</b>. İsim <code>sokrates</code>, MCP server URL yukarıdaki adres, kimlik doğrulama: "No auth".</p>
+            </div>
+          </div>
+          <div class="install-step">
+            <div class="step-num"></div>
+            <div class="step-body">
+              <h5>Belirsiz hedefinizi anlatın</h5>
+              <p>Yeni bir sohbette connector'ı seçip hedefinizi yazın — ChatGPT <code>start_session</code>'ı çağırır.</p>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="install-step">
-        <div class="step-num"></div>
-        <div class="step-body">
-          <h5>Connector'ı aktif edin</h5>
-          <p>Aynı <b>+</b> menüsündeki Connectors listesinde <code>sokrates</code>'i açık konuma getirin.</p>
+
+      <div class="model-picker-panel" data-panel="mistral">
+        <div class="install-steps">
+          <div class="install-step">
+            <div class="step-num"></div>
+            <div class="step-body">
+              <h5>Connectors sayfasını açın</h5>
+              <p>Le Chat'te <b>Connectors → + Add Connector</b> → <b>Custom MCP Connector</b> sekmesine geçin.</p>
+            </div>
+          </div>
+          <div class="install-step">
+            <div class="step-num"></div>
+            <div class="step-body">
+              <h5>Sunucuyu tanımlayın</h5>
+              <p>Connector name: <code>sokrates</code>, Server URL: yukarıdaki adres. <b>Connect</b>'e basın — Le Chat kimlik doğrulama yöntemini otomatik algılar (Sokrates için gerekmez).</p>
+            </div>
+          </div>
+          <div class="install-step">
+            <div class="step-num"></div>
+            <div class="step-body">
+              <h5>Belirsiz hedefinizi anlatın</h5>
+              <p>Sokrates artık araç listesinde — yeni bir sohbette hedefinizi anlatın.</p>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="install-step">
-        <div class="step-num"></div>
-        <div class="step-body">
-          <h5>Belirsiz hedefinizi anlatın</h5>
-          <p>Yeni bir sohbette, ör. "bir gym app yapmak istiyorum" yazın — Claude otomatik olarak <code>start_session</code>'ı çağırır ve size soru sormaya başlar.</p>
-        </div>
+
+      <div class="model-picker-panel" data-panel="gemini">
+        <p class="model-picker-note">
+          Tüketici Gemini uygulamasında (web/mobil) şu an rastgele bir custom MCP sunucusu eklemek desteklenmiyor — connector'lar sadece ortaklık bazlı ("Spark"). Sokrates'e Gemini üzerinden bağlanmanın iki yolu var:
+        </p>
+        <p class="model-picker-note"><b>Gemini CLI</b> kullanıyorsanız <code>~/.gemini/settings.json</code>'a ekleyin:</p>
+        <code class="block">{
+  "mcpServers": {
+    "sokrates": { "httpUrl": "https://sokrates.fastmcp.app/mcp" }
+  }
+}</code>
+        <p class="model-picker-note">Kurumsal <b>Gemini Enterprise</b> kullanıyorsanız admin, Connected apps → Add MCP Server üzerinden ekleyebilir.</p>
+      </div>
+
+      <div class="model-picker-panel" data-panel="qwen">
+        <p class="model-picker-note">
+          MCP bağlantısı şu an sadece <b>Qwen masaüstü uygulamasında</b> mevcut, web sürümünde yok. Masaüstü uygulamasını açın → MCP ayarları bölümünden "Custom MCP" ekleyin: isim <code>sokrates</code>, URL yukarıdaki adres.
+        </p>
+      </div>
+
+      <div class="model-picker-panel" data-panel="kimi">
+        <p class="model-picker-note">
+          MCP bağlantısı şu an sadece <b>Kimi CLI</b> üzerinden mevcut, web/mobil sohbet arayüzünde yok:
+        </p>
+        <code class="block">kimi mcp add --transport http sokrates https://sokrates.fastmcp.app/mcp</code>
+      </div>
+
+      <div class="model-picker-panel" data-panel="groq">
+        <p class="model-picker-note">
+          Groq kendisi bir sohbet arayüzü değil, bir model sağlayıcı (hızlı çıkarım altyapısı) — dolayısıyla kendi başına bir "connector" ekranı yok. Sokrates model-bağımsız olduğu için Groq modelini kullanan herhangi bir MCP istemcisiyle (ör. <a href="https://github.com/groq/groq-desktop-beta">Groq Desktop</a>, Claude Desktop + Groq API) yukarıdaki URL'i normal bir uzak MCP sunucusu olarak ekleyebilirsiniz.
+        </p>
       </div>
     </div>
 
     <div class="hero-ctas" style="justify-content:flex-start;margin-top:28px">
       <a class="btn btn-primary" href="https://github.com/aktapokus/sokrates-mcp">GitHub'da İncele ↗</a>
-      <a class="btn btn-secondary" href="https://github.com/aktapokus/sokrates-mcp#bağlanma">Claude Desktop/Code Kılavuzu ↗</a>
     </div>
   </section>
 
@@ -517,6 +636,19 @@ lightbox.onclick = () => lightbox.classList.remove('visible');
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') lightbox.classList.remove('visible');
 });
+
+// ── Sokrates bağlanma kılavuzu — "hangi asistanı kullanıyorsun" seçici.
+// Sokrates'in kendi ilkesiyle tutarlı: doğru soruyu sorup ona göre yönlendir.
+const modelPickerTabs = document.getElementById('modelPickerTabs');
+if (modelPickerTabs) {
+  modelPickerTabs.addEventListener('click', (e) => {
+    const btn = e.target.closest('button[data-target]');
+    if (!btn) return;
+    const target = btn.dataset.target;
+    modelPickerTabs.querySelectorAll('button').forEach(b => b.classList.toggle('active', b === btn));
+    document.querySelectorAll('.model-picker-panel').forEach(p => p.classList.toggle('active', p.dataset.panel === target));
+  });
+}
 
 // ── Dinamik araç listesi — GitHub'daki public repo listesinden anlık çekiliyor.
 // Yeni bir tool public olduğunda (ya da bir tanesi kaldırıldığında) bu sayfaya
