@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sokrates — Kod yazmadan önce, doğru soruları sorun</title>
+<meta name="description" content="Belirsiz bir fikri, Sokratik sorularla eksiksiz bir teknik spec'e dönüştüren, sıfır-API MCP sunucusu. Ücretsiz, hosted, kurulum gerekmez.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='46' fill='%23F4F1EA' stroke='%234338CA' stroke-width='4'/%3E%3Ctext x='50' y='68' font-family='Georgia,serif' font-size='58' font-weight='700' fill='%234338CA' text-anchor='middle'%3E%3F%3C/text%3E%3C/svg%3E">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,600;1,400;1,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:         #FAF9F7;
+  --surface:    #F1EFEA;
+  --surface-2:  #E7E4DC;
+  --border:     #DDD9CE;
+  --accent:     #4338CA;
+  --accent-dim: #362DA0;
+  --accent-light: rgba(67,56,202,0.08);
+  --gold:       #B45309;
+  --text:       #1B1A1E;
+  --text-dim:   #6B685F;
+  --text-xs:    #9A968A;
+  --serif:      'Newsreader', Georgia, serif;
+  --sans:       'Inter', system-ui, sans-serif;
+  --mono:       'IBM Plex Mono', monospace;
+  --radius:     10px;
+}
+:root[data-theme="dark"] {
+  --bg:         #16151C;
+  --surface:    #1E1D26;
+  --surface-2:  #27252F;
+  --border:     #34323D;
+  --accent:     #8B7FFF;
+  --accent-dim: #6F63E0;
+  --accent-light: rgba(139,127,255,0.12);
+  --gold:       #E0A458;
+  --text:       #ECE9E2;
+  --text-dim:   #A6A297;
+  --text-xs:    #6D6A61;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--bg); color: var(--text); font-family: var(--sans);
+  font-size: 16px; line-height: 1.65; transition: background 0.15s, color 0.15s;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.wrap { max-width: 940px; margin: 0 auto; padding: 0 24px; }
+code { font-family: var(--mono); font-size: 0.85em; background: var(--surface-2); padding: 2px 6px; border-radius: 4px; }
+
+header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 0; border-bottom: 1px solid var(--border);
+}
+.brand { display: flex; align-items: center; gap: 9px; font-family: var(--serif); font-weight: 600; font-size: 19px; color: var(--text); }
+.brand .mark {
+  width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--accent);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--serif); font-weight: 700; font-size: 15px; color: var(--accent); flex-shrink: 0;
+}
+.header-links { display: flex; align-items: center; gap: 22px; font-size: 14px; }
+.header-links a { color: var(--text-dim); font-weight: 500; }
+.header-links a:hover { color: var(--text); }
+.theme-toggle {
+  width: 32px; height: 32px; border-radius: var(--radius); background: transparent;
+  border: 1px solid var(--border); color: var(--text-dim); cursor: pointer;
+  display: flex; align-items: center; justify-content: center; font-size: 14px;
+}
+.theme-toggle:hover { background: var(--surface-2); }
+
+.hero { padding: 76px 0 52px; }
+.hero .eyebrow {
+  font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 18px;
+}
+.hero h1 {
+  font-family: var(--serif); font-size: 46px; font-weight: 600; letter-spacing: -0.01em;
+  line-height: 1.15; max-width: 760px; margin-bottom: 20px; text-wrap: balance;
+}
+.hero h1 em { font-style: italic; color: var(--accent); }
+.hero p.lead { font-size: 18px; color: var(--text-dim); max-width: 600px; margin-bottom: 32px; }
+.hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px; padding: 12px 22px;
+  border-radius: var(--radius); font-weight: 600; font-size: 15px; cursor: pointer;
+  border: 1px solid var(--border); transition: all 0.12s; font-family: var(--sans);
+}
+.btn:hover { text-decoration: none; }
+.btn-primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn-primary:hover { background: var(--accent-dim); }
+.btn-secondary { background: var(--surface); color: var(--text); }
+.btn-secondary:hover { background: var(--surface-2); }
+
+.dialogue {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 26px 28px; margin-top: 40px;
+}
+.dialogue .line { display: flex; gap: 14px; padding: 10px 0; }
+.dialogue .who { font-family: var(--mono); font-size: 12px; color: var(--text-xs); width: 64px; flex-shrink: 0; padding-top: 3px; text-transform: uppercase; letter-spacing: 0.04em; }
+.dialogue .who.sk { color: var(--accent); }
+.dialogue .what { font-size: 15px; color: var(--text); }
+.dialogue .what.bad { color: var(--text-dim); text-decoration: line-through; text-decoration-color: var(--text-xs); }
+
+.section { padding: 52px 0; border-top: 1px solid var(--border); }
+.section h2 {
+  font-family: var(--mono); font-size: 12px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.08em; color: var(--text-xs); margin-bottom: 10px;
+}
+.section h3 { font-family: var(--serif); font-size: 28px; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 32px; max-width: 640px; text-wrap: balance; }
+
+.principle-note {
+  background: var(--accent-light); border: 1px solid var(--accent); border-radius: var(--radius);
+  padding: 22px 24px; font-size: 15px; color: var(--text); line-height: 1.65;
+}
+.principle-note b { color: var(--accent); }
+
+.pipeline-strip {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 0; background: var(--surface);
+  border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 24px; margin-top: 24px;
+}
+.pipe-step { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-dim); font-family: var(--mono); white-space: nowrap; }
+.pipe-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+.pipe-line { width: 24px; height: 1px; background: var(--border); margin: 0 10px; flex-shrink: 0; }
+
+.checklist-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 4px 28px; }
+.checklist-item { display: flex; gap: 12px; padding: 14px 0; border-top: 1px solid var(--border); }
+.checklist-item:nth-child(-n+2) { border-top: none; }
+.checklist-item .n { font-family: var(--mono); font-size: 12px; color: var(--accent); flex-shrink: 0; width: 20px; padding-top: 2px; }
+.checklist-item h4 { font-size: 15px; font-weight: 600; margin-bottom: 3px; }
+.checklist-item p { font-size: 13px; color: var(--text-dim); line-height: 1.5; }
+
+.kb-groups { display: flex; flex-direction: column; gap: 22px; }
+.kb-group h4 {
+  font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em;
+  color: var(--text-xs); margin-bottom: 10px;
+}
+.kb-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.kb-tag {
+  font-size: 13px; padding: 7px 13px; border-radius: 999px; background: var(--surface);
+  border: 1px solid var(--border); color: var(--text-dim);
+}
+.kb-count { font-family: var(--mono); font-size: 12px; color: var(--text-xs); margin-top: 18px; }
+
+.model-picker-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; }
+.model-picker-tabs button {
+  font-family: var(--sans); font-size: 13px; font-weight: 500; padding: 8px 16px;
+  border-radius: 999px; border: 1px solid var(--border); background: var(--surface);
+  color: var(--text-dim); cursor: pointer; transition: all 0.12s;
+}
+.model-picker-tabs button:hover { background: var(--surface-2); color: var(--text); }
+.model-picker-tabs button.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+.model-picker-panel { display: none; }
+.model-picker-panel.active { display: block; }
+.model-picker-note { font-size: 14px; color: var(--text-dim); line-height: 1.6; margin-top: 8px; }
+.model-picker-note code.block {
+  display: block; font-family: var(--mono); font-size: 12px; background: var(--surface-2);
+  border-radius: 6px; padding: 12px 14px; margin-top: 10px; overflow-x: auto; white-space: pre;
+}
+.install-steps { counter-reset: step; }
+.install-step { display: flex; gap: 16px; padding: 14px 0; border-top: 1px solid var(--border); }
+.install-step:first-child { border-top: none; }
+.install-step .step-num {
+  counter-increment: step; font-family: var(--mono); font-size: 13px; color: var(--accent);
+  flex-shrink: 0; width: 22px; padding-top: 2px;
+}
+.install-step .step-num::before { content: counter(step); }
+.install-step .step-body h5 { font-size: 15px; font-weight: 600; margin-bottom: 3px; }
+.install-step .step-body p { font-size: 14px; color: var(--text-dim); }
+.clone-cmd {
+  font-family: var(--mono); font-size: 13px; background: var(--surface-2); border-radius: 6px;
+  padding: 11px 13px; overflow-x: auto; white-space: nowrap; color: var(--text); max-width: 420px;
+}
+
+footer { border-top: 1px solid var(--border); padding: 32px 0; text-align: center; color: var(--text-xs); font-size: 13px; }
+footer a { color: var(--text-dim); }
+footer .back { margin-bottom: 8px; }
+
+@media (max-width: 640px) {
+  .hero h1 { font-size: 32px; }
+  .section h3 { font-size: 22px; }
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <div class="brand"><span class="mark">?</span> Sokrates</div>
+    <div class="header-links">
+      <a href="#checklist">Checklist</a>
+      <a href="#baglan">Bağlan</a>
+      <a href="https://github.com/aktapokus/sokrates-mcp">GitHub</a>
+      <a href="../">← Aktapokus</a>
+      <button class="theme-toggle" id="themeToggle" title="Açık/Koyu tema">☀</button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="eyebrow">// Bir Aktapokus girişimi — bağımsız MCP sunucusu</div>
+    <h1>Kod yazmaya başlamadan önce, <em>doğru soruları</em> sorun.</h1>
+    <p class="lead">
+      Bir fikriniz var ama hangi teknik kararları vermeniz gerektiğini bilmiyorsunuz.
+      Sokrates, hedefinizi Sokratik sorularla netleştirip kod yazan herhangi bir LLM'e
+      verebileceğiniz eksiksiz bir teknik spec hazırlar — teknik bilgi gerektirmeden.
+    </p>
+    <div class="hero-ctas">
+      <a class="btn btn-primary" href="#baglan">Hemen Bağlan</a>
+      <a class="btn btn-secondary" href="https://github.com/aktapokus/sokrates-mcp">GitHub'da İncele ↗</a>
+    </div>
+
+    <div class="dialogue">
+      <div class="line"><div class="who">Siz</div><div class="what">"Bir gym app yapmak istiyorum."</div></div>
+      <div class="line"><div class="who sk">Sokrates</div><div class="what what-bad-wrap"><span class="what bad" style="display:inline">"Modüler monolit mi mikroservis mi, FastAPI + TimescaleDB hypertable şeması..."</span> — <b>değil.</b></div></div>
+      <div class="line"><div class="who sk">Sokrates</div><div class="what">"Üyeler bir dersi önceden rezerve edebilsin mi, yoksa gelip mi katılsın?"</div></div>
+    </div>
+  </section>
+
+  <section class="section" style="border-top:none;padding-top:0">
+    <h2>// Tasarım İlkesi</h2>
+    <h3>Sıfır API kullanımı — sunucunun kendi beyni yok.</h3>
+    <div class="principle-note">
+      Sokrates <b>hiçbir LLM API'sine bağlanmaz, kendi API key'i yoktur.</b> Tüm akıl
+      yürütmeyi (hangi sorunun sorulacağına karar vermek, ne zaman yeterli bilgi
+      toplandığını değerlendirmek) onu <b>çağıran model</b> yapar — sizin
+      Claude/ChatGPT aboneliğiniz üzerinden, ekstra maliyet olmadan. Sokrates sadece
+      oturum durumu tutar, elle küratörlüğü yapılan bir bilgi tabanında arama yapar
+      ve toplanan cevapları bir spec şablonuyla birleştirir — hiçbiri dış bir servise
+      ağ isteği atmaz.
+    </div>
+    <div class="pipeline-strip">
+      <div class="pipe-step"><span class="pipe-dot"></span>start_session</div><div class="pipe-line"></div>
+      <div class="pipe-step"><span class="pipe-dot"></span>submit_answer (döngü)</div><div class="pipe-line"></div>
+      <div class="pipe-step"><span class="pipe-dot"></span>search_knowledge_base</div><div class="pipe-line"></div>
+      <div class="pipe-step"><span class="pipe-dot"></span>generate_spec</div>
+    </div>
+  </section>
+
+  <section class="section" id="checklist">
+    <h2>// Checklist</h2>
+    <h3>Sizden gerçekte sorulan 11 kategori.</h3>
+    <div class="checklist-grid">
+      <div class="checklist-item"><div class="n">01</div><div><h4>Amaç ve Kullanıcı Kitlesi</h4><p>Bu tam olarak neyi çözüyor, kim kullanacak?</p></div></div>
+      <div class="checklist-item"><div class="n">02</div><div><h4>Veri Kaynağı</h4><p>Hangi veri işlenecek, nereden geliyor?</p></div></div>
+      <div class="checklist-item"><div class="n">03</div><div><h4>Hedef Kitle Büyüklüğü</h4><p>Sadece kendiniz için mi, ürüne mi dönüşecek?</p></div></div>
+      <div class="checklist-item"><div class="n">04</div><div><h4>Ölçek / Performans Beklentisi</h4><p>Kaç kullanıcı, ne kadar gecikme kabul edilebilir?</p></div></div>
+      <div class="checklist-item"><div class="n">05</div><div><h4>Hız / Kalite Önceliği</h4><p>Anlık sonuç mu, biraz bekleyip eksiksiz sonuç mu?</p></div></div>
+      <div class="checklist-item"><div class="n">06</div><div><h4>Görünüm ve His</h4><p>Sevdiğiniz font/renk/marka örnekleri var mı?</p></div></div>
+      <div class="checklist-item"><div class="n">07</div><div><h4>Arka Plan Yönetim Ekranı</h4><p>Verileri görüp düzeltebileceğiniz ayrı bir ekran lazım mı?</p></div></div>
+      <div class="checklist-item"><div class="n">08</div><div><h4>Entegrasyon Noktaları</h4><p>Hangi mevcut sistemlerle konuşacak?</p></div></div>
+      <div class="checklist-item"><div class="n">09</div><div><h4>Güvenlik / Gizlilik</h4><p>Hassas veri var mı, yerel mi bulutta mı?</p></div></div>
+      <div class="checklist-item"><div class="n">10</div><div><h4>Mevcut Altyapı</h4><p>Hangi donanım/yazılım zaten var?</p></div></div>
+      <div class="checklist-item"><div class="n">11</div><div><h4>Başarı Kriteri</h4><p>Bu proje ne zaman "bitti" sayılır?</p></div></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>// Bilgi Tabanı</h2>
+    <h3>Belirsiz bir teknik terim çıktığında Sokrates'in danıştığı, elle küratörlüğü yapılan 15 konu.</h3>
+    <div class="kb-groups">
+      <div class="kb-group">
+        <h4>Ses / Konuşma Tanıma</h4>
+        <div class="kb-tags">
+          <span class="kb-tag">Konuşmacı ayrımı aç/kapa</span>
+          <span class="kb-tag">Büyük dosya parçalama</span>
+          <span class="kb-tag">STT model seçimi</span>
+        </div>
+      </div>
+      <div class="kb-group">
+        <h4>Model Servis Etme</h4>
+        <div class="kb-tags">
+          <span class="kb-tag">Yerel vs bulut model</span>
+          <span class="kb-tag">Yerel LLM servis araçları</span>
+        </div>
+      </div>
+      <div class="kb-group">
+        <h4>Güvenilirlik / Hata Yönetimi</h4>
+        <div class="kb-tags">
+          <span class="kb-tag">Rate-limit fallback mimarisi</span>
+        </div>
+      </div>
+      <div class="kb-group">
+        <h4>RAG / Orkestrasyon</h4>
+        <div class="kb-tags">
+          <span class="kb-tag">AI özellik yaklaşımı (prompt / RAG / map-reduce / fine-tune / agentic)</span>
+        </div>
+      </div>
+      <div class="kb-group">
+        <h4>Veri Katmanı</h4>
+        <div class="kb-tags">
+          <span class="kb-tag">Vektör veritabanı seçimi</span>
+        </div>
+      </div>
+      <div class="kb-group">
+        <h4>Dağıtım / Hosting</h4>
+        <div class="kb-tags">
+          <span class="kb-tag">MCP sunucusu dağıtım seçenekleri</span>
+        </div>
+      </div>
+      <div class="kb-group">
+        <h4>Güvenlik / Kimlik Doğrulama</h4>
+        <div class="kb-tags">
+          <span class="kb-tag">Secret yönetimi</span>
+          <span class="kb-tag">Auth yöntemleri</span>
+          <span class="kb-tag">3. taraf API entegrasyon güvenliği</span>
+        </div>
+      </div>
+      <div class="kb-group">
+        <h4>Tasarım / Görsel Kimlik</h4>
+        <div class="kb-tags">
+          <span class="kb-tag">Font eşleştirme</span>
+          <span class="kb-tag">Renk paleti yaklaşımı</span>
+        </div>
+      </div>
+      <div class="kb-group">
+        <h4>Ürün Kapsamı</h4>
+        <div class="kb-tags">
+          <span class="kb-tag">Dashboard / admin panel ihtiyacı</span>
+        </div>
+      </div>
+    </div>
+    <p class="kb-count">// data/bilgi_tabani.yaml içinde elle güncellenir — <a href="https://github.com/aktapokus/sokrates-mcp/blob/main/data/bilgi_tabani.yaml">kaynağı görüntüle ↗</a></p>
+  </section>
+
+  <section class="section" id="baglan">
+    <h2>// Bağlanma</h2>
+    <h3>Kurulum gerekmez — hosted.</h3>
+    <p style="font-size:14px;color:var(--text-dim);margin-bottom:12px">MCP sunucu adresi:</p>
+    <div class="clone-cmd" style="margin-bottom:24px">https://sokrates.fastmcp.app/mcp</div>
+
+    <div class="model-picker">
+      <p style="font-size:15px;font-weight:600;margin-bottom:12px">Hangi asistanı kullanıyorsunuz?</p>
+      <div class="model-picker-tabs" id="modelPickerTabs">
+        <button data-target="claude" class="active">Claude</button>
+        <button data-target="chatgpt">ChatGPT</button>
+        <button data-target="mistral">Mistral (Le Chat)</button>
+        <button data-target="gemini">Gemini</button>
+        <button data-target="qwen">Qwen</button>
+        <button data-target="kimi">Kimi</button>
+        <button data-target="groq">Groq</button>
+      </div>
+
+      <div class="model-picker-panel active" data-panel="claude">
+        <div class="install-steps">
+          <div class="install-step"><div class="step-num"></div><div class="step-body">
+            <h5>Claude.ai'ı açın, Connectors ekleyin</h5>
+            <p>Sohbet kutusunun yanındaki <b>+</b> menüsü → <b>Connectors</b> → <b>Add connector</b>. İsim <code>sokrates</code>, URL yukarıdaki adres.</p>
+          </div></div>
+          <div class="install-step"><div class="step-num"></div><div class="step-body">
+            <h5>Connector'ı aktif edin</h5>
+            <p>Aynı menüdeki Connectors listesinde <code>sokrates</code>'i açık konuma getirin.</p>
+          </div></div>
+          <div class="install-step"><div class="step-num"></div><div class="step-body">
+            <h5>Belirsiz hedefinizi anlatın</h5>
+            <p>Yeni bir sohbette, ör. "bir gym app yapmak istiyorum" yazın.</p>
+          </div></div>
+        </div>
+        <p class="model-picker-note">Claude Desktop/Code için <code>.mcp.json</code> kılavuzu — <a href="https://github.com/aktapokus/sokrates-mcp#bağlanma">detaylar ↗</a></p>
+      </div>
+
+      <div class="model-picker-panel" data-panel="chatgpt">
+        <div class="install-steps">
+          <div class="install-step"><div class="step-num"></div><div class="step-body">
+            <h5>Developer mode'u açın</h5>
+            <p><b>Settings → Apps → Advanced settings</b>'ten <b>Developer mode</b>'u etkinleştirin (Pro/Plus/Business/Enterprise/Education).</p>
+          </div></div>
+          <div class="install-step"><div class="step-num"></div><div class="step-body">
+            <h5>Custom connector oluşturun</h5>
+            <p><b>Settings → Connectors → Create</b>. İsim <code>sokrates</code>, URL yukarıdaki adres, kimlik doğrulama: "No auth".</p>
+          </div></div>
+          <div class="install-step"><div class="step-num"></div><div class="step-body">
+            <h5>Belirsiz hedefinizi anlatın</h5>
+            <p>Yeni bir sohbette connector'ı seçip hedefinizi yazın.</p>
+          </div></div>
+        </div>
+      </div>
+
+      <div class="model-picker-panel" data-panel="mistral">
+        <div class="install-steps">
+          <div class="install-step"><div class="step-num"></div><div class="step-body">
+            <h5>Connectors sayfasını açın</h5>
+            <p>Le Chat'te <b>Connectors → + Add Connector</b> → <b>Custom MCP Connector</b> sekmesi.</p>
+          </div></div>
+          <div class="install-step"><div class="step-num"></div><div class="step-body">
+            <h5>Sunucuyu tanımlayın</h5>
+            <p>Connector name: <code>sokrates</code>, Server URL: yukarıdaki adres → <b>Connect</b>.</p>
+          </div></div>
+          <div class="install-step"><div class="step-num"></div><div class="step-body">
+            <h5>Belirsiz hedefinizi anlatın</h5>
+            <p>Sokrates artık araç listesinde.</p>
+          </div></div>
+        </div>
+      </div>
+
+      <div class="model-picker-panel" data-panel="gemini">
+        <p class="model-picker-note">Tüketici Gemini uygulamasında (web/mobil) şu an custom MCP sunucusu eklemek desteklenmiyor. İki yol var:</p>
+        <p class="model-picker-note"><b>Gemini CLI</b> — <code>~/.gemini/settings.json</code>'a ekleyin:</p>
+        <code class="block">{
+  "mcpServers": {
+    "sokrates": { "httpUrl": "https://sokrates.fastmcp.app/mcp" }
+  }
+}</code>
+        <p class="model-picker-note">Kurumsal <b>Gemini Enterprise</b> — admin, Connected apps → Add MCP Server.</p>
+      </div>
+
+      <div class="model-picker-panel" data-panel="qwen">
+        <p class="model-picker-note">MCP bağlantısı şu an sadece <b>Qwen masaüstü uygulamasında</b> mevcut, web sürümünde yok. Masaüstü uygulaması → MCP ayarları → "Custom MCP": isim <code>sokrates</code>, URL yukarıdaki adres.</p>
+      </div>
+
+      <div class="model-picker-panel" data-panel="kimi">
+        <p class="model-picker-note">MCP bağlantısı şu an sadece <b>Kimi CLI</b> üzerinden mevcut:</p>
+        <code class="block">kimi mcp add --transport http sokrates https://sokrates.fastmcp.app/mcp</code>
+      </div>
+
+      <div class="model-picker-panel" data-panel="groq">
+        <p class="model-picker-note">Groq bir sohbet arayüzü değil, bir model sağlayıcı. Sokrates model-bağımsız olduğu için Groq modelini kullanan herhangi bir MCP istemcisiyle (ör. <a href="https://github.com/groq/groq-desktop-beta">Groq Desktop</a>) yukarıdaki URL'i normal bir uzak MCP sunucusu olarak ekleyebilirsiniz.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="back"><a href="../">← Aktapokus ekosistemine dön</a></div>
+    <p>Sokrates — <a href="https://github.com/aktapokus/sokrates-mcp">github.com/aktapokus/sokrates-mcp</a></p>
+  </footer>
+</div>
+
+<script>
+function applyTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  const btn = document.getElementById('themeToggle');
+  if (btn) btn.textContent = theme === 'dark' ? '☾' : '☀';
+}
+function toggleTheme() {
+  const current = document.documentElement.getAttribute('data-theme') || 'light';
+  const next = current === 'dark' ? 'light' : 'dark';
+  localStorage.setItem('aktapokus-site-theme', next);
+  applyTheme(next);
+}
+const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+applyTheme(localStorage.getItem('aktapokus-site-theme') || (prefersDark ? 'dark' : 'light'));
+document.getElementById('themeToggle').onclick = toggleTheme;
+
+const modelPickerTabs = document.getElementById('modelPickerTabs');
+if (modelPickerTabs) {
+  modelPickerTabs.addEventListener('click', (e) => {
+    const btn = e.target.closest('button[data-target]');
+    if (!btn) return;
+    const target = btn.dataset.target;
+    modelPickerTabs.querySelectorAll('button').forEach(b => b.classList.toggle('active', b === btn));
+    document.querySelectorAll('.model-picker-panel').forEach(p => p.classList.toggle('active', p.dataset.panel === target));
+  });
+}
+</script>
+
+</body>
+</html>
