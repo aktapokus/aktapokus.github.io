@@ -546,6 +546,27 @@ async function loadToolsFromGitHub() {
   }
 }
 loadToolsFromGitHub();
+
+// Visitor counter — intentionally NOT rendered anywhere on the page,
+// only logged to the browser console (F12). visitorbadge.io is a free,
+// anonymous hit-counter service (normally renders a GitHub-README-style
+// badge; we just read the count out of the SVG text and never show the
+// badge itself); each page load increments the counter and returns the
+// running total. Originally used countapi.xyz here, but that service is
+// now fully down (DNS doesn't even resolve) — found by actually testing
+// it, swapped for visitorbadge.io. Fails silently if unreachable, never
+// breaks the page.
+(function () {
+  try {
+    fetch("https://api.visitorbadge.io/api/visitors?path=aktapokus-github-io-en&countColor=%23263759")
+      .then(function (r) { return r.text(); })
+      .then(function (t) {
+        const m = t.match(/VISITORS:\s*(\d+)/);
+        if (m) console.log("[Aktapokus] visit count (EN):", m[1]);
+      })
+      .catch(function () {});
+  } catch (e) {}
+})();
 </script>
 
 </body>

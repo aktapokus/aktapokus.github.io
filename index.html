@@ -582,6 +582,27 @@ async function loadToolsFromGitHub() {
   }
 }
 loadToolsFromGitHub();
+
+// Ziyaretçi sayacı — BİLEREK sayfada hiçbir yere yazdırılmıyor, sadece
+// tarayıcı konsoluna (F12) düşüyor. visitorbadge.io ücretsiz/anonim bir
+// hit-counter servisi (normalde GitHub README rozeti üretir, biz sadece
+// SVG metninden sayıyı okuyup rozeti hiç göstermiyoruz); her sayfa
+// yüklemesinde sayacı 1 artırıp güncel toplamı dönüyor. Önceden
+// countapi.xyz kullanıyordum ama o servis artık tamamen kapanmış
+// (DNS çözülmüyor) — gerçek testle bulundu, visitorbadge.io ile
+// değiştirildi. Servise erişilemezse sessizce yutuluyor, sayfayı
+// hiçbir şekilde bozmuyor.
+(function () {
+  try {
+    fetch("https://api.visitorbadge.io/api/visitors?path=aktapokus-github-io-tr&countColor=%23263759")
+      .then(function (r) { return r.text(); })
+      .then(function (t) {
+        const m = t.match(/VISITORS:\s*(\d+)/);
+        if (m) console.log("[Aktapokus] ziyaret sayısı (TR):", m[1]);
+      })
+      .catch(function () {});
+  } catch (e) {}
+})();
 </script>
 
 </body>
