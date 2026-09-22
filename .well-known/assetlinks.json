@@ -1,0 +1,10 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "io.github.aktapokus.kidsenglish",
+    "sha256_cert_fingerprints": [
+      "C3:4E:A5:93:D9:34:B8:89:7A:E5:63:A8:DA:09:A5:4B:86:5E:B6:3C:AF:C5:50:2E:C3:C1:BB:ED:13:73:22:1B"
+    ]
+  }
+}]
