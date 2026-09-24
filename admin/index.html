@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Aktapokus - Kontrol Paneli</title>
+<style>
+  :root{ --ink:#1A2233; --ink-dim:#5B6472; --bg:#0F1210; --card:#1A1F1B; --border:#2C332D; --accent:#FFC20E; }
+  *{box-sizing:border-box;}
+  body{ margin:0; background:var(--bg); color:#F5F0DF; font-family:system-ui,-apple-system,sans-serif; min-height:100vh; }
+  .gate{ min-height:100vh; display:flex; align-items:center; justify-content:center; padding:20px; }
+  .gate-card{ background:var(--card); border:1px solid var(--border); border-radius:16px; padding:32px 28px; max-width:340px; width:100%; text-align:center; }
+  .gate-card h1{ font-size:18px; margin:0 0 18px; }
+  .gate-card input{ width:100%; font-size:16px; padding:12px 14px; border-radius:10px; border:1.5px solid var(--border); background:#0F1210; color:#fff; font-family:inherit; text-align:center; }
+  .gate-card button{ width:100%; margin-top:12px; font-family:inherit; font-size:14px; font-weight:700; padding:11px 18px; border-radius:10px; border:none; background:var(--accent); color:#2A1B00; cursor:pointer; }
+  .gate-msg{ font-size:12.5px; font-weight:700; color:#FF8B82; min-height:16px; margin-top:8px; }
+  .wrap{ max-width:720px; margin:0 auto; padding:32px 20px 60px; }
+  h1.title{ font-size:22px; margin:0 0 4px; }
+  .sub{ color:var(--ink-dim); font-size:13.5px; margin:0 0 28px; color:#9C9585; }
+  .group{ margin-bottom:26px; }
+  .group h2{ font-size:12px; text-transform:uppercase; letter-spacing:.06em; color:#9C9585; margin:0 0 10px; }
+  .link-card{ display:flex; align-items:center; gap:12px; background:var(--card); border:1px solid var(--border); border-radius:12px; padding:14px 16px; margin-bottom:8px; text-decoration:none; color:#F5F0DF; }
+  .link-card:hover{ border-color:var(--accent); }
+  .link-emoji{ font-size:22px; flex:none; }
+  .link-text b{ display:block; font-size:14.5px; }
+  .link-text span{ display:block; font-size:12px; color:#9C9585; margin-top:1px; }
+  .hidden{ display:none; }
+</style>
+</head>
+<body>
+
+<div class="gate" id="gate">
+  <div class="gate-card">
+    <h1>🔒 Aktapokus Kontrol Paneli</h1>
+    <input type="password" id="gatePass" placeholder="Şifre" autocomplete="off" />
+    <button id="gateBtn">Gir</button>
+    <div class="gate-msg" id="gateMsg"></div>
+  </div>
+</div>
+
+<div class="hidden wrap" id="panel">
+  <h1 class="title">🛠️ Kontrol Paneli</h1>
+  <p class="sub">Kids English ve diğer Aktapokus araçlarının yönetim linkleri — sadece sana özel.</p>
+
+  <div class="group">
+    <h2>Kids English — Uygulama</h2>
+    <a class="link-card" href="https://aktapokus.github.io/kids-english/" target="_blank" rel="noopener noreferrer"><span class="link-emoji">🎮</span><span class="link-text"><b>Canlı Uygulama</b><span>aktapokus.github.io/kids-english</span></span></a>
+    <a class="link-card" href="https://aktapokus.github.io/kids-english/teacher.html" target="_blank" rel="noopener noreferrer"><span class="link-emoji">🏫</span><span class="link-text"><b>Öğretmen Paneli</b><span>Sınıf/öğrenci takip ekranı</span></span></a>
+    <a class="link-card" href="https://github.com/aktapokus/kids-english" target="_blank" rel="noopener noreferrer"><span class="link-emoji">📦</span><span class="link-text"><b>GitHub Deposu</b><span>github.com/aktapokus/kids-english</span></span></a>
+  </div>
+
+  <div class="group">
+    <h2>Bulut Servisleri</h2>
+    <a class="link-card" href="https://supabase.com/dashboard/project/wtrkfzmmhabcpoipaccf" target="_blank" rel="noopener noreferrer"><span class="link-emoji">🗄️</span><span class="link-text"><b>Supabase Panel</b><span>Sınıf/öğrenci/sıralama veritabanı, öğretmen hesapları</span></span></a>
+    <a class="link-card" href="https://resend.com/emails" target="_blank" rel="noopener noreferrer"><span class="link-emoji">✉️</span><span class="link-text"><b>Resend Panel</b><span>Öğretmen e-postaları (onay/şifre sıfırlama)</span></span></a>
+  </div>
+
+  <div class="group">
+    <h2>Diğer Aktapokus Araçları</h2>
+    <a class="link-card" href="https://github.com/aktapokus" target="_blank" rel="noopener noreferrer"><span class="link-emoji">🐙</span><span class="link-text"><b>Tüm GitHub Depoları</b><span>github.com/aktapokus</span></span></a>
+  </div>
+</div>
+
+<script>
+  // Bu sadece hafif bir engel - gercek bir kimlik dogrulama degil (statik
+  // site, sunucu yok). Buradaki linklerin hicbiri kendisi bir sir tasimiyor,
+  // her biri (Supabase/Resend/GitHub) zaten kendi gercek girisini istiyor.
+  var HASH = '5e68b221b14d55865289d21c45b356b7962a888d4ede774c0b1975b070393272';
+  var SESSION_KEY = 'ke_admin_unlocked_v1';
+
+  function sha256(text) {
+    var enc = new TextEncoder().encode(text);
+    return crypto.subtle.digest('SHA-256', enc).then(function (buf) {
+      return Array.from(new Uint8Array(buf)).map(function (b) { return b.toString(16).padStart(2, '0'); }).join('');
+    });
+  }
+
+  function unlock() {
+    document.getElementById('gate').classList.add('hidden');
+    document.getElementById('panel').classList.remove('hidden');
+  }
+
+  if (sessionStorage.getItem(SESSION_KEY) === '1') unlock();
+
+  document.getElementById('gateBtn').addEventListener('click', check);
+  document.getElementById('gatePass').addEventListener('keydown', function (e) { if (e.key === 'Enter') check(); });
+
+  function check() {
+    var val = document.getElementById('gatePass').value;
+    sha256(val).then(function (h) {
+      if (h === HASH) {
+        try { sessionStorage.setItem(SESSION_KEY, '1'); } catch (e) {}
+        unlock();
+      } else {
+        document.getElementById('gateMsg').textContent = 'Yanlış şifre.';
+      }
+    });
+  }
+</script>
+</body>
+</html>
