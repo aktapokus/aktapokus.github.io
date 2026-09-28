@@ -4,99 +4,128 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Aktapokus - Kontrol Paneli</title>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src https://wtrkfzmmhabcpoipaccf.supabase.co; object-src 'none'; base-uri 'self'; form-action 'none'">
+<title>Aktapokus · Yönetim</title>
 <style>
-  :root{ --ink:#1A2233; --ink-dim:#5B6472; --bg:#0F1210; --card:#1A1F1B; --border:#2C332D; --accent:#FFC20E; }
-  *{box-sizing:border-box;}
-  body{ margin:0; background:var(--bg); color:#F5F0DF; font-family:system-ui,-apple-system,sans-serif; min-height:100vh; }
-  .gate{ min-height:100vh; display:flex; align-items:center; justify-content:center; padding:20px; }
-  .gate-card{ background:var(--card); border:1px solid var(--border); border-radius:16px; padding:32px 28px; max-width:340px; width:100%; text-align:center; }
-  .gate-card h1{ font-size:18px; margin:0 0 18px; }
-  .gate-card input{ width:100%; font-size:16px; padding:12px 14px; border-radius:10px; border:1.5px solid var(--border); background:#0F1210; color:#fff; font-family:inherit; text-align:center; }
-  .gate-card button{ width:100%; margin-top:12px; font-family:inherit; font-size:14px; font-weight:700; padding:11px 18px; border-radius:10px; border:none; background:var(--accent); color:#2A1B00; cursor:pointer; }
-  .gate-msg{ font-size:12.5px; font-weight:700; color:#FF8B82; min-height:16px; margin-top:8px; }
-  .wrap{ max-width:720px; margin:0 auto; padding:32px 20px 60px; }
-  h1.title{ font-size:22px; margin:0 0 4px; }
-  .sub{ color:var(--ink-dim); font-size:13.5px; margin:0 0 28px; color:#9C9585; }
-  .group{ margin-bottom:26px; }
-  .group h2{ font-size:12px; text-transform:uppercase; letter-spacing:.06em; color:#9C9585; margin:0 0 10px; }
-  .link-card{ display:flex; align-items:center; gap:12px; background:var(--card); border:1px solid var(--border); border-radius:12px; padding:14px 16px; margin-bottom:8px; text-decoration:none; color:#F5F0DF; }
-  .link-card:hover{ border-color:var(--accent); }
-  .link-emoji{ font-size:22px; flex:none; }
-  .link-text b{ display:block; font-size:14.5px; }
-  .link-text span{ display:block; font-size:12px; color:#9C9585; margin-top:1px; }
-  .hidden{ display:none; }
+  :root{ --ink:#172030; --dim:#5d6878; --bg:#f4f6f9; --card:#fff; --line:#dfe4ea; --accent:#1e4d8c; --good:#237a4b; --good-bg:#e6f4ec; --warn:#9a6200; --warn-bg:#fff4dc; --bad:#b3261e; --bad-bg:#fde8e6; }
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:var(--bg); color:var(--ink); font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif; padding:18px 16px 60px; }
+  .wrap{ max-width:1080px; margin:0 auto; }
+  header{ display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:16px; }
+  header h1{ font-size:20px; margin:0; flex:1; }
+  header .who{ color:var(--dim); font-size:13px; }
+  button{ font:600 14px system-ui,sans-serif; border:1px solid var(--line); background:var(--card); color:var(--ink); border-radius:8px; padding:7px 12px; cursor:pointer; }
+  button.primary{ background:var(--accent); color:#fff; border-color:var(--accent); }
+  .card{ background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px; }
+  .hidden{ display:none !important; }
+  .login{ max-width:380px; margin:60px auto; }
+  .login h1{ font-size:20px; margin:0 0 4px; }
+  .login p{ color:var(--dim); margin:0 0 14px; font-size:13.5px; }
+  label{ display:block; font-size:13px; font-weight:600; margin:10px 0 4px; }
+  input{ width:100%; font:15px system-ui,sans-serif; padding:9px 10px; border:1px solid var(--line); border-radius:8px; }
+  .msg{ min-height:20px; font-size:13.5px; margin-top:8px; } .msg.err{ color:var(--bad); } .msg.ok{ color:var(--good); }
+  .status{ display:flex; gap:14px; align-items:center; padding:14px 16px; border-radius:12px; margin-bottom:14px; border:1px solid; }
+  .status .big{ font-size:26px; }
+  .status b{ display:block; font-size:16px; }
+  .status.good{ background:var(--good-bg); border-color:#b9dfc8; } .status.warn{ background:var(--warn-bg); border-color:#f0d9a6; } .status.bad{ background:var(--bad-bg); border-color:#f3c3be; }
+  .grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:10px; margin-bottom:14px; }
+  .kpi{ background:var(--card); border:1px solid var(--line); border-radius:12px; padding:12px 14px; }
+  .kpi .n{ font-size:26px; font-weight:700; font-variant-numeric:tabular-nums; }
+  .kpi .l{ font-size:12.5px; color:var(--dim); }
+  h2{ font-size:16px; margin:22px 0 8px; display:flex; align-items:center; gap:8px; }
+  h2 small{ font-weight:500; color:var(--dim); font-size:12.5px; }
+  .links{ display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:10px; }
+  .lgroup{ background:var(--card); border:1px solid var(--line); border-radius:12px; padding:12px 14px; }
+  .lgroup h3{ font-size:12px; text-transform:uppercase; letter-spacing:.06em; color:var(--dim); margin:0 0 6px; }
+  .lgroup a{ display:flex; gap:8px; align-items:baseline; padding:5px 0; color:var(--ink); text-decoration:none; border-bottom:1px dashed var(--line); }
+  .lgroup a:last-child{ border-bottom:0; }
+  .lgroup a:hover b{ color:var(--accent); text-decoration:underline; }
+  .lgroup a span{ font-size:12px; color:var(--dim); }
+  .tbl{ overflow-x:auto; background:var(--card); border:1px solid var(--line); border-radius:12px; }
+  table{ border-collapse:collapse; width:100%; font-size:13.5px; }
+  th,td{ text-align:left; padding:8px 10px; border-bottom:1px solid var(--line); vertical-align:top; white-space:nowrap; }
+  td.wrap{ white-space:normal; min-width:180px; }
+  th{ background:#f8fafc; color:var(--dim); font-weight:600; font-size:12.5px; }
+  tr:last-child td{ border-bottom:0; }
+  .num{ text-align:right; font-variant-numeric:tabular-nums; }
+  .pill{ display:inline-block; padding:1px 8px; border-radius:99px; font-size:12px; font-weight:600; }
+  .pill.good{ background:var(--good-bg); color:var(--good); } .pill.bad{ background:var(--bad-bg); color:var(--bad); } .pill.warn{ background:var(--warn-bg); color:var(--warn); } .pill.dim{ background:#eef1f5; color:var(--dim); }
+  .empty{ color:var(--dim); padding:12px; }
+  .foot{ color:var(--dim); font-size:12.5px; margin-top:20px; }
+  a{ color:var(--accent); }
 </style>
 </head>
 <body>
+<div class="wrap">
 
-<div class="gate" id="gate">
-  <div class="gate-card">
-    <h1>🔒 Aktapokus Kontrol Paneli</h1>
-    <input type="password" id="gatePass" placeholder="Şifre" autocomplete="off" />
-    <button id="gateBtn">Gir</button>
-    <div class="gate-msg" id="gateMsg"></div>
+  <div class="card login" id="loginCard">
+    <h1>🔐 Aktapokus Yönetim</h1>
+    <p>Yalnızca yönetici. Öğretmen paneli hesabıyla (e-posta + şifre) giriş yapılır; yetki veritabanındaki yönetici listesinden kontrol edilir.</p>
+    <label for="email">E-posta</label>
+    <input id="email" type="email" autocomplete="username">
+    <label for="pass">Şifre</label>
+    <input id="pass" type="password" autocomplete="current-password">
+    <div style="margin-top:14px;"><button class="primary" id="loginBtn" type="button">Giriş yap</button></div>
+    <div class="msg" id="loginMsg"></div>
+  </div>
+
+  <div id="dash" class="hidden">
+    <header>
+      <h1>🛠️ Aktapokus · Yönetim</h1>
+      <span class="who" id="who"></span>
+      <button type="button" id="refreshBtn">↻ Yenile</button>
+      <button type="button" id="logoutBtn">Çıkış</button>
+    </header>
+
+    <div class="status" id="backupStatus"></div>
+    <div class="grid" id="kpis"></div>
+
+    <h2>🔗 Bağlantılar</h2>
+    <div class="links">
+      <div class="lgroup">
+        <h3>Kids English · Uygulama</h3>
+        <a href="https://aktapokus.github.io/kids-english/" target="_blank" rel="noopener noreferrer"><b>🎮 Uygulama (PWA)</b><span>kids-english</span></a>
+        <a href="https://aktapokus.github.io/kids-english/teacher.html" target="_blank" rel="noopener noreferrer"><b>🏫 Öğretmen paneli</b><span>sınıflar, görevler</span></a>
+        <a href="https://aktapokus.github.io/kids-english/kilavuz.html" target="_blank" rel="noopener noreferrer"><b>📖 Kullanım kılavuzu</b><span>öğretmen + veli</span></a>
+        <a href="https://aktapokus.github.io/kids-english/privacy.html" target="_blank" rel="noopener noreferrer"><b>🔒 Gizlilik</b><span>privacy.html</span></a>
+      </div>
+      <div class="lgroup">
+        <h3>Veritabanı ve yedek</h3>
+        <a href="https://supabase.com/dashboard/project/wtrkfzmmhabcpoipaccf" target="_blank" rel="noopener noreferrer"><b>🗄️ Supabase paneli</b><span>tablolar, SQL Editor</span></a>
+        <a href="https://supabase.com/dashboard/project/wtrkfzmmhabcpoipaccf/sql/new" target="_blank" rel="noopener noreferrer"><b>🧮 SQL Editor</b><span>yeni sorgu</span></a>
+        <a href="https://github.com/aktapokus/kids-english-db-backup/actions" target="_blank" rel="noopener noreferrer"><b>⚙️ Yedek görevleri</b><span>GitHub Actions</span></a>
+        <a href="https://github.com/aktapokus/kids-english-db-backup/tree/main/backups" target="_blank" rel="noopener noreferrer"><b>📦 Yedek dosyaları</b><span>gizli depo</span></a>
+        <a href="https://github.com/aktapokus/kids-english-db-backup/settings/secrets/actions" target="_blank" rel="noopener noreferrer"><b>🔑 Yedek gizli ayarları</b><span>SUPABASE_DB_URL, BACKUP_PASSPHRASE</span></a>
+        <a href="https://github.com/aktapokus/kids-english-db-backup#geri-yükleme" target="_blank" rel="noopener noreferrer"><b>♻️ Geri yükleme adımları</b><span>README</span></a>
+      </div>
+      <div class="lgroup">
+        <h3>Belgeler ve kod</h3>
+        <a href="https://github.com/aktapokus/kids-english-db-backup/blob/main/docs/yonetim-el-kitabi.md" target="_blank" rel="noopener noreferrer"><b>📘 Yönetim el kitabı</b><span>gizli depo</span></a>
+        <a href="https://github.com/aktapokus/kids-english" target="_blank" rel="noopener noreferrer"><b>📦 Uygulama deposu</b><span>kids-english (yayın)</span></a>
+        <a href="https://github.com/aktapokus" target="_blank" rel="noopener noreferrer"><b>🐙 Tüm GitHub depoları</b><span>github.com/aktapokus</span></a>
+      </div>
+      <div class="lgroup">
+        <h3>Diğer servisler</h3>
+        <a href="https://resend.com/emails" target="_blank" rel="noopener noreferrer"><b>✉️ Resend</b><span>öğretmen onay / şifre e-postaları</span></a>
+        <a href="https://aktapokus.github.io/" target="_blank" rel="noopener noreferrer"><b>🏠 Aktapokus ana sayfa</b><span>aktapokus.github.io</span></a>
+      </div>
+    </div>
+
+    <h2>🗄️ Yedekler <small>son 40 çalışma</small></h2>
+    <div class="tbl" id="backups"></div>
+
+    <h2>🧑‍🏫 Öğretmenler</h2>
+    <div class="tbl" id="teachers"></div>
+
+    <h2>🏫 Sınıflar</h2>
+    <div class="tbl" id="classes"></div>
+
+    <h2>⚑ Sorun bildirimleri <small>son 30</small></h2>
+    <div class="tbl" id="reports"></div>
+
+    <p class="foot" id="foot"></p>
   </div>
 </div>
-
-<div class="hidden wrap" id="panel">
-  <h1 class="title">🛠️ Kontrol Paneli</h1>
-  <p class="sub">Kids English ve diğer Aktapokus araçlarının yönetim linkleri — sadece sana özel.</p>
-
-  <div class="group">
-    <h2>Kids English — Uygulama</h2>
-    <a class="link-card" href="https://aktapokus.github.io/kids-english/" target="_blank" rel="noopener noreferrer"><span class="link-emoji">🎮</span><span class="link-text"><b>Canlı Uygulama</b><span>aktapokus.github.io/kids-english</span></span></a>
-    <a class="link-card" href="https://aktapokus.github.io/kids-english/teacher.html" target="_blank" rel="noopener noreferrer"><span class="link-emoji">🏫</span><span class="link-text"><b>Öğretmen Paneli</b><span>Sınıf/öğrenci takip ekranı</span></span></a>
-    <a class="link-card" href="https://github.com/aktapokus/kids-english" target="_blank" rel="noopener noreferrer"><span class="link-emoji">📦</span><span class="link-text"><b>GitHub Deposu</b><span>github.com/aktapokus/kids-english</span></span></a>
-  </div>
-
-  <div class="group">
-    <h2>Bulut Servisleri</h2>
-    <a class="link-card" href="https://supabase.com/dashboard/project/wtrkfzmmhabcpoipaccf" target="_blank" rel="noopener noreferrer"><span class="link-emoji">🗄️</span><span class="link-text"><b>Supabase Panel</b><span>Sınıf/öğrenci/sıralama veritabanı, öğretmen hesapları</span></span></a>
-    <a class="link-card" href="https://resend.com/emails" target="_blank" rel="noopener noreferrer"><span class="link-emoji">✉️</span><span class="link-text"><b>Resend Panel</b><span>Öğretmen e-postaları (onay/şifre sıfırlama)</span></span></a>
-  </div>
-
-  <div class="group">
-    <h2>Diğer Aktapokus Araçları</h2>
-    <a class="link-card" href="https://github.com/aktapokus" target="_blank" rel="noopener noreferrer"><span class="link-emoji">🐙</span><span class="link-text"><b>Tüm GitHub Depoları</b><span>github.com/aktapokus</span></span></a>
-  </div>
-</div>
-
-<script>
-  // Bu sadece hafif bir engel - gercek bir kimlik dogrulama degil (statik
-  // site, sunucu yok). Buradaki linklerin hicbiri kendisi bir sir tasimiyor,
-  // her biri (Supabase/Resend/GitHub) zaten kendi gercek girisini istiyor.
-  var HASH = '5e68b221b14d55865289d21c45b356b7962a888d4ede774c0b1975b070393272';
-  var SESSION_KEY = 'ke_admin_unlocked_v1';
-
-  function sha256(text) {
-    var enc = new TextEncoder().encode(text);
-    return crypto.subtle.digest('SHA-256', enc).then(function (buf) {
-      return Array.from(new Uint8Array(buf)).map(function (b) { return b.toString(16).padStart(2, '0'); }).join('');
-    });
-  }
-
-  function unlock() {
-    document.getElementById('gate').classList.add('hidden');
-    document.getElementById('panel').classList.remove('hidden');
-  }
-
-  if (sessionStorage.getItem(SESSION_KEY) === '1') unlock();
-
-  document.getElementById('gateBtn').addEventListener('click', check);
-  document.getElementById('gatePass').addEventListener('keydown', function (e) { if (e.key === 'Enter') check(); });
-
-  function check() {
-    var val = document.getElementById('gatePass').value;
-    sha256(val).then(function (h) {
-      if (h === HASH) {
-        try { sessionStorage.setItem(SESSION_KEY, '1'); } catch (e) {}
-        unlock();
-      } else {
-        document.getElementById('gateMsg').textContent = 'Yanlış şifre.';
-      }
-    });
-  }
-</script>
+<script src="admin.js"></script>
 </body>
 </html>
