@@ -1,10 +1,15 @@
-[{
-  "relation": ["delegate_permission/common.handle_all_urls"],
-  "target": {
-    "namespace": "android_app",
-    "package_name": "io.github.aktapokus.kidsenglish",
-    "sha256_cert_fingerprints": [
-      "C3:4E:A5:93:D9:34:B8:89:7A:E5:63:A8:DA:09:A5:4B:86:5E:B6:3C:AF:C5:50:2E:C3:C1:BB:ED:13:73:22:1B"
-    ]
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "io.github.aktapokus.kidsenglish",
+      "sha256_cert_fingerprints": [
+        "C3:4E:A5:93:D9:34:B8:89:7A:E5:63:A8:DA:09:A5:4B:86:5E:B6:3C:AF:C5:50:2E:C3:C1:BB:ED:13:73:22:1B",
+        "58:6B:0D:C4:23:27:B6:06:BD:EA:DC:34:B6:41:84:A3:82:FD:09:BF:24:05:A2:78:A4:E5:01:14:96:89:30:27"
+      ]
+    }
   }
-}]
+]
