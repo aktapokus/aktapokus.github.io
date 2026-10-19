@@ -185,6 +185,7 @@ footer a { color: var(--text-dim); }
     <div class="header-links">
       <a href="#tools">Tools</a>
       <a href="#kids-english">Kids English</a>
+      <a href="#kesif">Keşif</a>
       <a href="#philosophy">Philosophy</a>
       <a href="https://github.com/aktapokus/core">GitHub</a>
       <a href="../admin/" rel="nofollow" title="Admin sign-in">🔐 Admin</a>
@@ -297,6 +298,18 @@ footer a { color: var(--text-dim); }
     <div class="hero-ctas" style="justify-content:flex-start">
       <a class="btn btn-primary" href="../kids-english/">Open the App ↗</a>
       <a class="btn btn-secondary" href="https://github.com/aktapokus/kids-english">View on GitHub ↗</a>
+    </div>
+  </section>
+
+  <section class="section" id="kesif">
+    <h2>// Keşif</h2>
+    <h3>Discovery instead of memorising, for Turkey's university entrance exams (TYT/AYT).</h3>
+    <p style="font-size:15px;color:var(--text-dim);max-width:640px;margin-bottom:28px;line-height:1.6">
+      Each lesson takes about 25 minutes: a hook, an interactive exploration, then questions whose wrong answers explain where the thinking slipped. Maths (limits, the unit circle, exponentials and logarithms) and Turkish paragraph reading so far, in Turkish. An early work in progress: the curriculum mapping is not yet verified and no teacher has reviewed the content. No account, no ads; progress stays in your browser.
+    </p>
+    <div class="hero-ctas" style="justify-content:flex-start">
+      <a class="btn btn-primary" href="../kesif/">Open Keşif ↗</a>
+      <a class="btn btn-secondary" href="https://github.com/aktapokus/kesif">View on GitHub ↗</a>
     </div>
   </section>
 
@@ -443,7 +456,7 @@ document.addEventListener('keydown', (e) => {
 // limit, network issue, etc.) the static cards above stay as they are —
 // the page never looks empty or broken.
 const AKTAPOKUS_ORG = 'aktapokus';
-const EXCLUDED_REPOS = ['aktapokus.github.io'];
+const EXCLUDED_REPOS = ['aktapokus.github.io', 'kesif'];
 const KNOWN_TOOLS = {
   'core': {
     name: 'Aktapokus Core', letter: 'C', color: { bg: 'rgba(56,104,214,0.14)', fg: '#3868D6' },
