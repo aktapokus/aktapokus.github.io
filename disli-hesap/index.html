@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#faf6ea">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="simge/simge-192.png">
+<link rel="apple-touch-icon" href="simge/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Dişli Hesabı">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<style>body{margin:0}</style>
+</head>
+<body>
+<title>Triger Dişli Hesabı</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+<style>
+  /* Yerleşim: üstte şema + tek dişli ölçüleri, altta devir ve kayış boyu blokları */
+  :root {
+    --zemin: #faf6ea; --yuzey: #fffdf6; --cizgi: #e4dcc4; --yazi: #2c2a22; --soluk: #6d6856;
+    --vurgu: #f2c230; --vurgu-koyu: #7a5c00; --hata: #a8321f;
+    --font: "Inter", "Segoe UI", Tahoma, sans-serif;
+    color-scheme: light;
+  }
+  body { background: var(--zemin); color: var(--yazi); font-family: var(--font); font-size: 15px; }
+  .sayfa { max-width: 1160px; margin: 0 auto; padding-block: 20px 32px;
+    padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+    display: grid; gap: 20px; }
+  .ust { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  h1 { font-size: 22px; font-weight: 700; margin: 0; }
+  h2 { font-size: 14px; font-weight: 600; margin: 0; padding: 10px 12px; background: var(--vurgu); border-radius: 6px 6px 0 0; text-align: center; }
+  button { font: 600 13px var(--font); color: var(--yazi); background: var(--vurgu); border: 0; border-radius: 6px; padding: 8px 14px; cursor: pointer; flex: none; }
+  button:hover { background: #e6b51f; }
+  :focus-visible { outline: 2px solid var(--vurgu-koyu); outline-offset: 1px; }
+  .iki { display: grid; gap: 20px; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
+  .blok { background: var(--yuzey); border: 1px solid var(--cizgi); border-radius: 6px; min-width: 0; }
+  .sema { background: #fff; padding: 10px; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 6px; }
+  .sema-disli { flex: 250 1 170px; min-width: 0; max-width: 300px; }
+  .sema-kayis { flex: 410 1 280px; min-width: 0; }
+  .sema svg { display: block; width: 100%; height: auto; font: 600 16px var(--font); }
+  .sema text { fill: var(--yazi); paint-order: stroke; stroke: #fff; stroke-width: 3px; stroke-linejoin: round; }
+  .govde { fill: var(--vurgu); stroke: var(--yazi); stroke-width: 1.6; stroke-linejoin: round; }
+  .delik { fill: #fff; stroke: var(--yazi); stroke-width: 1.6; }
+  .kayis { fill: none; stroke: var(--yazi); stroke-width: 8; stroke-linejoin: round; }
+  .eksen { fill: none; stroke: #fff; stroke-width: 1; stroke-dasharray: 7 4; }
+  .bolum { fill: none; stroke: var(--soluk); stroke-width: 1.2; stroke-dasharray: 9 4 2 4; }
+  .olcu { fill: none; stroke: var(--soluk); stroke-width: 1.2; }
+  .ok { fill: var(--soluk); }
+  .satir { display: grid; grid-template-columns: minmax(0, 1fr) 120px minmax(92px, auto); gap: 10px; align-items: center; padding: 8px 12px; border-top: 1px solid var(--cizgi); min-height: 38px; }
+  .satir.sonuc { grid-template-columns: minmax(0, 1fr) auto; }
+  label, .etiket { font-weight: 500; }
+  input, select { width: 100%; box-sizing: border-box; font: 500 14px var(--font); color: var(--yazi); background: #fff; border: 1px solid var(--cizgi); border-radius: 5px; padding: 6px 8px; font-variant-numeric: tabular-nums; }
+  .deger { font-weight: 600; font-variant-numeric: tabular-nums; text-align: right; color: var(--vurgu-koyu); white-space: nowrap; }
+  .deger small { font-weight: 500; color: var(--soluk); font-size: 12px; margin-left: 4px; }
+  .deger.hata { color: var(--hata); white-space: normal; }
+  @media (max-width: 800px) { .iki { grid-template-columns: minmax(0, 1fr); } }
+  @media (max-width: 440px) { .satir { grid-template-columns: minmax(0, 1fr) 84px minmax(78px, auto); gap: 8px; padding-inline: 10px; } h1 { font-size: 19px; } }
+</style>
+
+<div class="sayfa">
+  <div class="ust">
+    <h1>Triger Dişli Hesabı</h1>
+    <button type="button" id="temizle">Temizle</button>
+  </div>
+
+  <div class="iki">
+    <div class="blok sema">
+      <div id="semaDisli" class="sema-disli" role="img" aria-label="Tek dişli: Ødo, Øda, Ødf çapları ve adım t"></div>
+      <div id="semaKayis" class="sema-kayis" role="img" aria-label="İki dişli ve kayış: Z1, Z2, eksenler arası Ce, kayış boyu L"></div>
+    </div>
+    <div class="blok">
+      <h2>Dişli Ölçüleri</h2>
+      <div class="satir"><label for="tip">Kayış Tipi</label><select id="tip"></select><span class="deger" id="adim" title="Adım (t)"></span></div>
+      <div class="satir"><label for="z">Diş Sayısı (Z)</label><input id="z" type="number" min="1" step="1" inputmode="numeric"><span></span></div>
+      <div class="satir sonuc"><span class="etiket">Bölüm Dairesi Çapı (Ødo)</span><span class="deger" id="do"></span></div>
+      <div class="satir sonuc"><span class="etiket">Diş Üstü Çapı (Øda)</span><span class="deger" id="da"></span></div>
+      <div class="satir sonuc"><span class="etiket">Z'nin 1 Turda Aldığı Yol</span><span class="deger" id="tur"></span></div>
+    </div>
+  </div>
+
+  <div class="iki">
+    <div class="blok">
+      <h2>İletim / Devir Oranı (Z1 → Z2)</h2>
+      <div class="satir"><label for="n">Redüktör Devri (dev/dk)</label><input id="n" type="number" min="0" step="any"><span></span></div>
+      <div class="satir"><label for="iz1">Döndüren Dişli (Z1)</label><input id="iz1" type="number" min="1" step="1" inputmode="numeric"><span class="deger" id="ido1" title="Z1 Ødo"></span></div>
+      <div class="satir"><label for="iz2">Döndürülen Dişli (Z2)</label><input id="iz2" type="number" min="1" step="1" inputmode="numeric"><span class="deger" id="ido2" title="Z2 Ødo"></span></div>
+      <div class="satir sonuc"><span class="etiket" title="Z1 ÷ Z2: Z1'in bir turunda Z2'nin attığı tur">İletim Oranı (Z2'nin Turu)</span><span class="deger" id="oran"></span></div>
+      <div class="satir sonuc"><span class="etiket">Z2'nin Devri</span><span class="deger" id="n2"></span></div>
+      <div class="satir sonuc"><span class="etiket">Z2'nin 1 Dakikada Aldığı Yol</span><span class="deger" id="yol"></span></div>
+    </div>
+    <div class="blok">
+      <h2>Kayış Boyu (Z1 / Z2)</h2>
+      <div class="satir"><label for="bz1">Büyük Dişli (Z1)</label><input id="bz1" type="number" min="1" step="1" inputmode="numeric"><span class="deger" id="bdo1" title="Z1 Ødo"></span></div>
+      <div class="satir"><label for="bz2">Küçük Dişli (Z2)</label><input id="bz2" type="number" min="1" step="1" inputmode="numeric"><span class="deger" id="bdo2" title="Z2 Ødo"></span></div>
+      <div class="satir"><label for="ce">Eksenler Arası (Ce) mm</label><input id="ce" type="number" min="0" step="any"><span></span></div>
+      <div class="satir sonuc"><span class="etiket" title="L ≈ 2·Ce + π(d1+d2)/2 + (d1−d2)²/(4·Ce)">~ Kayış Boyu (L)</span><span class="deger" id="L"></span></div>
+    </div>
+  </div>
+</div>
+
+<script>
+/*HESAP-BASI*/
+// t: diş adımı (mm). k: Ødo − Øda farkı (mm), üretici katalog tablolarından.
+// Bu fark adımla orantılı değildir; her kayış tipinin kendi değeri kullanılır.
+const KAYIS = {
+  "MXL":   { t: 2.032,  k: 0.51 },
+  "XL":    { t: 5.08,   k: 0.51 },
+  "L":     { t: 9.525,  k: 0.76 },
+  "H":     { t: 12.7,   k: 1.37 },
+  "XH":    { t: 22.225, k: 2.79 },
+  "XXH":   { t: 31.75,  k: 3.05 },
+  "T2.5":  { t: 2.5,    k: 0.50 },
+  "AT2.5": { t: 2.5,    k: 0.50 }, // katalogda bulunamadı, T2.5 değeri alındı
+  "T5":    { t: 5,      k: 0.84 },
+  "AT5":   { t: 5,      k: 1.22 },
+  "T10":   { t: 10,     k: 1.86 },
+  "AT10":  { t: 10,     k: 1.82 },
+  "T20":   { t: 20,     k: 2.85 },
+  "AT20":  { t: 20,     k: 2.82 },
+  "HTD3M": { t: 3,      k: 0.76 },
+  "HTD5":  { t: 5,      k: 1.14 },
+  "HTD8":  { t: 8,      k: 1.37 },
+  "HTD14": { t: 14,     k: 2.79 },
+  "HTD20": { t: 20,     k: 4.32 }
+};
+const bolumCapi = (z, t) => z * t / Math.PI;
+const disUstuCapi = (z, b) => bolumCapi(z, b.t) - b.k;
+const turYolu = (z, t) => z * t;
+const iletimOrani = (z1, z2) => z1 / z2;            // Z1'in bir turunda Z2'nin turu
+const z2Devri = (n, z1, z2) => n * iletimOrani(z1, z2);
+const dakikaYolu = (n, z1, z2, t) => z2Devri(n, z1, z2) * turYolu(z2, t); // = n·Z1·t
+const kayisBoyu = (d1, d2, ce) => 2 * ce + Math.PI * (d1 + d2) / 2 + (d1 - d2) ** 2 / (4 * ce);
+const carpisir = (d1, d2, ce) => ce <= (d1 + d2) / 2;
+/*HESAP-SONU*/
+
+const $ = id => document.getElementById(id);
+
+// Şema: dişler gerçek bir kasnak gibi tek tek çizilir (uçta dar, tabanda geniş).
+function disliYolu(cx, cy, rUc, rTaban, z) {
+  const P = (r, a) => `${(cx + r * Math.cos(a)).toFixed(2)} ${(cy + r * Math.sin(a)).toFixed(2)}`;
+  const adim = 2 * Math.PI / z;
+  let d = "";
+  for (let i = 0; i < z; i++) {
+    const a = i * adim - Math.PI / 2;
+    d += `${i ? "L" : "M"}${P(rTaban, a - 0.3 * adim)} L${P(rUc, a - 0.17 * adim)} `
+       + `A${rUc} ${rUc} 0 0 1 ${P(rUc, a + 0.17 * adim)} L${P(rTaban, a + 0.3 * adim)} `
+       + `A${rTaban} ${rTaban} 0 0 1 ${P(rTaban, a + 0.7 * adim)} `;
+  }
+  return d + "Z";
+}
+const OK = '<defs><marker id="okUcu" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path class="ok" d="M0 1 L10 5 L0 9 Z"/></marker></defs>';
+
+function semaCiz() {
+  // Tek dişli
+  const cx = 140, cy = 152, rUc = 88, rTaban = 73, rBolum = 94, z = 16, adim = 2 * Math.PI / z;
+  const uc = (r, derece) => { const a = derece * Math.PI / 180; return [cx + r * Math.cos(a), cy + r * Math.sin(a)]; };
+  const ok = (r, derece) => { const [x, y] = uc(r, derece); return `<line class="olcu" x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" marker-end="url(#okUcu)"/>`; };
+  const yazi = (s, r, derece) => { const [x, y] = uc(r, derece); return `<text x="${x}" y="${y}" text-anchor="middle" dominant-baseline="middle">${s}</text>`; };
+  const tA = -Math.PI / 2 - adim, tB = -Math.PI / 2;
+  const tx = a => cx + 124 * Math.cos(a), ty = a => cy + 124 * Math.sin(a);
+  $("semaDisli").innerHTML = `<svg viewBox="0 0 250 280">${OK}
+    <path class="govde" d="${disliYolu(cx, cy, rUc, rTaban, z)}"/>
+    <circle class="bolum" cx="${cx}" cy="${cy}" r="${rBolum}"/>
+    <circle class="delik" cx="${cx}" cy="${cy}" r="17"/>
+    ${ok(rBolum, 205)}${ok(rUc, -22)}${ok(rTaban, 62)}
+    ${yazi("Ødo", 114, 205)}${yazi("Øda", 54, -36)}${yazi("Ødf", 46, 88)}
+    <path class="olcu" d="M${cx + rUc * Math.cos(tA)} ${cy + rUc * Math.sin(tA)} L${tx(tA)} ${ty(tA)} M${cx + rUc * Math.cos(tB)} ${cy + rUc * Math.sin(tB)} L${tx(tB)} ${ty(tB)}"/>
+    <line class="olcu" x1="${tx(tA)}" y1="${ty(tA) + 4}" x2="${tx(tB)}" y2="${ty(tB) + 4}" marker-start="url(#okUcu)" marker-end="url(#okUcu)"/>
+    <text x="${(tx(tA) + tx(tB)) / 2}" y="${Math.min(ty(tA), ty(tB)) - 8}" text-anchor="middle">t</text>
+  </svg>`;
+
+  // Kayışlı iki dişli: aynı adım, 36 ve 20 diş; Z2 solda, Z1 sağda
+  const y0 = 122, x2 = 66, x1 = 306, r2Uc = 47, r2Taban = 40, r1Uc = 85, r1Taban = 78, pay = 4;
+  const R1 = r1Uc + pay, R2 = r2Uc + pay, s = (R1 - R2) / (x1 - x2), c = Math.sqrt(1 - s * s);
+  const u1 = [x1 - R1 * s, y0 - R1 * c], u2 = [x2 - R2 * s, y0 - R2 * c];
+  const a1 = [u1[0], 2 * y0 - u1[1]], a2 = [u2[0], 2 * y0 - u2[1]];
+  const mx = (u1[0] + u2[0]) / 2, my = (u1[1] + u2[1]) / 2;
+  $("semaKayis").innerHTML = `<svg viewBox="0 0 410 280">${OK}
+    <path class="kayis" d="M${u2} L${u1} A${R1} ${R1} 0 1 1 ${a1} L${a2} A${R2} ${R2} 0 0 1 ${u2} Z"/>
+    <path class="govde" d="${disliYolu(x1, y0, r1Uc, r1Taban, 36)}"/>
+    <path class="govde" d="${disliYolu(x2, y0, r2Uc, r2Taban, 20)}"/>
+    <circle class="delik" cx="${x1}" cy="${y0}" r="14"/><circle class="delik" cx="${x2}" cy="${y0}" r="10"/>
+    <text x="${x1}" y="${y0 - 36}" text-anchor="middle">Z1</text>
+    <text x="${x2}" y="${y0 - 21}" text-anchor="middle">Z2</text>
+    <path class="olcu" d="M${mx} ${my - 5} L${mx - 14} ${my - 26}"/>
+    <text x="${mx - 20}" y="${my - 32}" text-anchor="middle">L</text>
+    <path class="olcu" d="M${x2} ${y0 + 12} V268 M${x1} ${y0 + 16} V268"/>
+    <line class="olcu" x1="${x2}" y1="258" x2="${x1}" y2="258" marker-start="url(#okUcu)" marker-end="url(#okUcu)"/>
+    <text x="${(x1 + x2) / 2}" y="248" text-anchor="middle">Ce</text>
+  </svg>`;
+}
+semaCiz();
+
+const SAYI = ["z", "n", "iz1", "iz2", "bz1", "bz2", "ce"];
+const ORNEK = { tip: "T20", z: 25, n: 1500, iz1: 40, iz2: 20, bz1: 25, bz2: 25, ce: 770.1 };
+for (const ad of Object.keys(KAYIS)) $("tip").add(new Option(ad, ad));
+
+const pozitif = id => { const v = parseFloat($(id).value); return v > 0 ? v : null; };
+const fmt = (v, birim, ond = 3) => v.toLocaleString("tr-TR", { minimumFractionDigits: 0, maximumFractionDigits: ond }) + (birim ? `<small>${birim}</small>` : "");
+const yaz = (id, v, birim, ond) => { const e = $(id); e.classList.remove("hata"); e.innerHTML = v === null ? "" : fmt(v, birim, ond); };
+
+function hesapla() {
+  const b = KAYIS[$("tip").value], t = b.t;
+  yaz("adim", t, "mm");
+  const z = pozitif("z");
+  yaz("do", z && bolumCapi(z, t), "mm");
+  yaz("da", z && disUstuCapi(z, b), "mm");
+  yaz("tur", z && turYolu(z, t), "mm");
+
+  const n = pozitif("n"), z1 = pozitif("iz1"), z2 = pozitif("iz2");
+  yaz("ido1", z1 && bolumCapi(z1, t), "mm");
+  yaz("ido2", z2 && bolumCapi(z2, t), "mm");
+  yaz("oran", z1 && z2 ? iletimOrani(z1, z2) : null);
+  yaz("n2", n && z1 && z2 ? z2Devri(n, z1, z2) : null, "dev/dk");
+  yaz("yol", n && z1 && z2 ? dakikaYolu(n, z1, z2, t) : null, "mm/dk", 1);
+
+  const bz1 = pozitif("bz1"), bz2 = pozitif("bz2"), ce = pozitif("ce");
+  const d1 = bz1 && bolumCapi(bz1, t), d2 = bz2 && bolumCapi(bz2, t);
+  yaz("bdo1", d1, "mm");
+  yaz("bdo2", d2, "mm");
+  if (d1 && d2 && ce && carpisir(d1, d2, ce)) {
+    $("L").textContent = "Ce çok küçük, dişliler çakışıyor";
+    $("L").classList.add("hata");
+  } else {
+    yaz("L", d1 && d2 && ce ? kayisBoyu(d1, d2, ce) : null, "mm", 1);
+  }
+}
+
+for (const [ad, v] of Object.entries(ORNEK)) $(ad).value = v;
+["tip", ...SAYI].forEach(id => $(id).addEventListener("input", hesapla));
+$("temizle").addEventListener("click", () => { SAYI.forEach(id => $(id).value = ""); hesapla(); $("z").focus(); });
+hesapla();
+
+// Internetsiz calisma: yalnizca https (veya localhost) adreste etkin olur
+if ("serviceWorker" in navigator && window.isSecureContext && location.protocol !== "file:") {
+  navigator.serviceWorker.register("sw.js").catch(() => {});
+}
+</script>
+</body>
+</html>
